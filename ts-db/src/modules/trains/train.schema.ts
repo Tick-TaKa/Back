@@ -1,3 +1,4 @@
+import { flatten } from '@nestjs/common';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 
@@ -52,6 +53,7 @@ export class Train {
             senior: { type: Number, required: true },
             youth: { type: Number, required: true },
         },
+        _id: false,
     })
     price: {
         adult: number;

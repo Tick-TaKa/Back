@@ -10,8 +10,8 @@ export class TrainService {
         @InjectModel(Train.name) private readonly trainModel: Model<TrainDocument>,
     ) {}
 
-// 기차 목록 조회
-// 출발지, 도착지, 날짜에 맞는 기차 목록 반환
+    // 기차 목록 조회
+    // 출발지, 도착지, 날짜에 맞는 기차 목록 반환
     async findTrains(departure: string, destination: string, date: string) {
         const trains = await this.trainModel.find({
             departure,
@@ -34,10 +34,27 @@ export class TrainService {
         return { trains: TrainResponseDto };
     }
 
-// 남은 좌석 수 계산
+    // 남은 좌석 수 계산
     private getAvailableSeats(train: Train) {
         return train.seats.reduce((availableCount, carriage) => {
             return availableCount + carriage.seats.filter(seat => seat.status === 'available').length;
         }, 0);
+    }
+
+    // 기차 조회 매서드
+    async findTrainById(trainId: string): Promise<Train> {
+        const train = await this.trainModel.findOne({ trainId }).exec();
+        if (!train) {
+            throw new Error('Train not found');
+        }
+        return train;
+    }
+
+    // 기차 좌석 정보 업데이트
+    async updateTrainSeats(trainId: string, seats: any[]): Promise<void> {
+        await this.trainModel.updateOne(
+            { trainId },
+            { $set: { seats } }, // 좌석 상태 업데이트
+        ).exec();
     }
 }
