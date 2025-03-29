@@ -5,6 +5,7 @@ import { TrainModule } from './modules/trains/train.module';
 import { SeatModule } from './modules/seats/seat.module';
 import { ReservationModule } from './modules/reservations/reservation.module';
 import { CardModule } from './modules/cards/card.module';
+import { RefundModule } from './modules/refunds/refund.module';
 
 
 @Module({
@@ -15,6 +16,7 @@ import { CardModule } from './modules/cards/card.module';
     SeatModule,
     ReservationModule,
     CardModule,
+    RefundModule,
   ],
 })
 export class AppModule {}

@@ -10,24 +10,28 @@ export class SeatService {
     ) {}
 
     async findSeats(trainId: string, carriageNumber: number) {
-        // 기차 아이디 기반 기차 조회회
         const train = await this.trainModel.findOne({ trainId }).exec();
         if(!train) {
             throw new NotFoundException(`Train with ID ${trainId} not found`);
         }
 
-        // 해당 기차에서 특정 호차 찾기
         const carriage = train.seats.find(car => car.carriageNumber === carriageNumber);
         if (!carriage) {
             throw new NotFoundException(`Carriage ${carriageNumber} not found in train ${trainId}`);
         }
 
+        const seats = carriage.seats.map(seat => ({
+            seatNumber: seat.seatNumber,
+            isAvailable: seat.status === 'available',
+        }));
+
+        if (seats.length === 0) {
+            throw new NotFoundException('No seats found for the given train and carriage');
+        }
+
         return {
             carriageNumber: carriage.carriageNumber,
-            availableSeats: carriage.seats.map(seat => ({
-                seatNumber: seat.seatNumber,
-                isAvailable: seat.status === 'available',
-            })),
+            availableSeats: seats,
         };
     }
 }

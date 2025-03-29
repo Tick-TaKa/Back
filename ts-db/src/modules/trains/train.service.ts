@@ -3,15 +3,12 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Train, TrainDocument } from './train.schema';
 
-// 몽고에서 Train 컬렉션을 사용할 수 있도록 taindModel 주입
 @Injectable()
 export class TrainService {
     constructor(
         @InjectModel(Train.name) private readonly trainModel: Model<TrainDocument>,
     ) {}
 
-    // 기차 목록 조회
-    // 출발지, 도착지, 날짜에 맞는 기차 목록 반환
     async findTrains(departure: string, destination: string, date: string) {
         const trains = await this.trainModel.find({
             departure,
@@ -34,7 +31,6 @@ export class TrainService {
         return { trains: TrainResponseDto };
     }
 
-    // 남은 좌석 수 계산
     private getAvailableSeats(train: Train) {
         return train.seats.reduce((availableCount, carriage) => {
             return availableCount + carriage.seats.filter(seat => seat.status === 'available').length;
@@ -54,7 +50,7 @@ export class TrainService {
     async updateTrainSeats(trainId: string, seats: any[]): Promise<void> {
         await this.trainModel.updateOne(
             { trainId },
-            { $set: { seats } }, // 좌석 상태 업데이트
+            { $set: { seats } },
         ).exec();
     }
 }
