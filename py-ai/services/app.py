@@ -3,14 +3,15 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from dotenv import load_dotenv
 from openai import OpenAI
+from services.query_chain_service import query_current_action_chain
+from services.query_chain_service import query_remaining_steps_chain
 import os
 
-def load_prompt(path: str) -> str:
-    with open(path, "r", encoding="utf-8") as f:
-        return f.read()
+# py-ai 폴더에서
+# .\venv\Scripts\activate
+# python -m services.app
 
 load_dotenv()
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 app = FastAPI()
 
@@ -26,41 +27,21 @@ class AskRequest(BaseModel):
     question: str
     log: dict
 
-def format_log_for_prompt(log: dict) -> str:
-    return "\n".join([
-        f"[{entry['timestamp']}] {entry['page']} - {entry['action']} : {entry['value']}"
-        for entry in log.get("entries", [])
-    ])
-
-def create_prompt(question: str, log: dict) -> str:
-    log_text = format_log_for_prompt(log)
-    log_type = log.get("name")
-
-    if log_type == "reservation":
-        prompt_template = load_prompt("prompts/system/reservation.txt")
-        return prompt_template.format(question=question, log_text=log_text)
-    else:
-        return f"""사용자 질문: {question}
-
-사용자 활동 로그:
-{log_text}
-
-이 정보를 바탕으로 답변해줘."""
-
+# 이 페이지에서는 무엇을 해야 해?
 @app.post("/current_action")
-def ask_question(request: AskRequest):
-    system_prompt = load_prompt("prompts/system/reservation.txt")
-    prompt = create_prompt(request.question, request.log)
+def current_action_question(request: AskRequest):
+    question = request.question
+    location = request.log.get("location")  # 프론트 로그 데이터에서 page 추출
+    purpose = request.log.get("purpose")  # 프론트 로그 데이터에서 purpose 추출
 
-    response = client.chat.completions.create(
-        model="gpt-3.5-turbo",
-        messages=[
-            {"role": "system", "content": system_prompt},
-            {"role": "user", "content": prompt}
-        ]
-    )
+    answer = query_current_action_chain(question, location, purpose)
+    return {"question": question, "answer": answer}
 
-    answer = response.choices[0].message.content
+@app.post("/remaining_steps")
+def remaining_steps_route(request: AskRequest):
+    location = request.log.get("location")
+    purpose = request.log.get("purpose")
+    answer = query_remaining_steps_chain(location, purpose)
     return {"question": request.question, "answer": answer}
 
 if __name__ == "__main__":

@@ -11,9 +11,6 @@ client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 PERSIST_DIR = "chroma_data"
 
 # Chroma 클라이언트: persist 모드로 설정
-# chroma_client = chromadb.Client(
-#     chromadb.config.Settings(persist_directory=PERSIST_DIR)
-# )
 chroma_client = chromadb.PersistentClient(path=PERSIST_DIR)
 
 # 문서 저장용 컬렉션
@@ -33,16 +30,22 @@ def add_document_to_vector_store(doc_id: str, text: str, metadata: dict):
         metadatas=[metadata]
     )
 
-
-def query_by_page_and_purpose(page: str, purpose: str, query_text: str, top_k: int = 3):
+# 벡터 DB에서 관련 문서를 찾는 핵심 동작
+def query_by_location_and_purpose(query: str, location: str, top_k: int = 3):
     embedding = client.embeddings.create(
         model="text-embedding-3-small",
-        input=[query_text]
+        input=[query]
     ).data[0].embedding
+
+    # 필터는 location 하나만!
+    filters = {
+        "location": location
+    }
 
     results = collection.query(
         query_embeddings=[embedding],
         n_results=top_k,
-        where={"page": page, "purpose": {"$contains": purpose}}
+        where=filters
     )
+
     return results
