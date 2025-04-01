@@ -1,0 +1,61 @@
+[페이지: AddCard]
+[목적: reservation]
+
+이 페이지는 'reservation' 과정 중 'AddCard' 화면입니다.
+
+다음과 같은 UI 요소들이 있습니다:
+- div: 'RegisterCredit카드 등록카드사 선택{cardCompanies.map((company) => (setSelectedCompany(company)}
+                            >
+                                {company}))}카드 번호setCardNumber(e.target.value)} />
+                            {/* 4개씩 16개 숫자 입력하면 4개씩 -로 묶이고 마지막 4자리는 *로 표시  */}CVCsetCvc(e.target.value)} />
+                        {/* 숫자 세개만 입력받고 모두 *로 표시 */}유효 기간setExpiry(e.target.value)} />
+                            {/* MM/YY 형식으로 숫자 네자리 입력받고 모두 *로 표시 */}카드 비밀번호setPassword(e.target.value)} />
+                            {/* 숫자 두 개 입력 받고 *로 표시 */}이전등록하기{/* 등록하기 누르면 카드 이미지가 payment class="card-box add-card" 이 부분에 추가하고, 카드 추가할 수록 그 옆으로 캐러셀처럼 옆으로 슬라이드 되고 카드 이미지 추가됨.  */}' (id: , class: )
+- div: '카드 등록카드사 선택{cardCompanies.map((company) => (setSelectedCompany(company)}
+                            >
+                                {company}))}카드 번호setCardNumber(e.target.value)} />
+                            {/* 4개씩 16개 숫자 입력하면 4개씩 -로 묶이고 마지막 4자리는 *로 표시  */}CVCsetCvc(e.target.value)} />
+                        {/* 숫자 세개만 입력받고 모두 *로 표시 */}유효 기간setExpiry(e.target.value)} />
+                            {/* MM/YY 형식으로 숫자 네자리 입력받고 모두 *로 표시 */}카드 비밀번호setPassword(e.target.value)} />
+                            {/* 숫자 두 개 입력 받고 *로 표시 */}' (id: , class: {styleb.box})
+- div: '카드 등록카드사 선택{cardCompanies.map((company) => (setSelectedCompany(company)}
+                            >
+                                {company}))}카드 번호setCardNumber(e.target.value)} />
+                            {/* 4개씩 16개 숫자 입력하면 4개씩 -로 묶이고 마지막 4자리는 *로 표시  */}CVCsetCvc(e.target.value)} />
+                        {/* 숫자 세개만 입력받고 모두 *로 표시 */}유효 기간setExpiry(e.target.value)} />
+                            {/* MM/YY 형식으로 숫자 네자리 입력받고 모두 *로 표시 */}카드 비밀번호setPassword(e.target.value)} />
+                            {/* 숫자 두 개 입력 받고 *로 표시 */}' (id: , class: add-card-container)
+- h2: '카드 등록' (id: , class: page-title)
+- div: '카드사 선택{cardCompanies.map((company) => (setSelectedCompany(company)}
+                            >
+                                {company}))}카드 번호setCardNumber(e.target.value)} />
+                            {/* 4개씩 16개 숫자 입력하면 4개씩 -로 묶이고 마지막 4자리는 *로 표시  */}CVCsetCvc(e.target.value)} />
+                        {/* 숫자 세개만 입력받고 모두 *로 표시 */}유효 기간setExpiry(e.target.value)} />
+                            {/* MM/YY 형식으로 숫자 네자리 입력받고 모두 *로 표시 */}카드 비밀번호setPassword(e.target.value)} />
+                            {/* 숫자 두 개 입력 받고 *로 표시 */}' (id: , class: content-container)
+- div: '카드사 선택' (id: , class: )
+- div: '{cardCompanies.map((company) => (setSelectedCompany(company)}
+                            >
+                                {company}))}' (id: , class: addcard-selected-container)
+- button: 'setSelectedCompany(company)}
+                            >
+                                {company}' (id: , class: addcard-selected)
+- div: '카드 번호setCardNumber(e.target.value)} />
+                            {/* 4개씩 16개 숫자 입력하면 4개씩 -로 묶이고 마지막 4자리는 *로 표시  */}' (id: , class: )
+- div: '카드 번호' (id: , class: )
+- input: '(텍스트 없음)' (id: , class: )
+- div: 'CVCsetCvc(e.target.value)} />
+                        {/* 숫자 세개만 입력받고 모두 *로 표시 */}' (id: , class: )
+- div: 'CVC' (id: , class: )
+- input: '(텍스트 없음)' (id: , class: )
+- div: '유효 기간setExpiry(e.target.value)} />
+                            {/* MM/YY 형식으로 숫자 네자리 입력받고 모두 *로 표시 */}' (id: , class: )
+- div: '유효 기간' (id: , class: )
+- input: '(텍스트 없음)' (id: , class: )
+- div: '카드 비밀번호setPassword(e.target.value)} />
+                            {/* 숫자 두 개 입력 받고 *로 표시 */}' (id: , class: )
+- div: '카드 비밀번호' (id: , class: )
+- input: '(텍스트 없음)' (id: , class: )
+- div: '이전등록하기{/* 등록하기 누르면 카드 이미지가 payment class="card-box add-card" 이 부분에 추가하고, 카드 추가할 수록 그 옆으로 캐러셀처럼 옆으로 슬라이드 되고 카드 이미지 추가됨.  */}' (id: , class: display-button)
+- button: '이전' (id: , class: {`${styles.button})
+- button: '등록하기' (id: , class: {`${styles.button})

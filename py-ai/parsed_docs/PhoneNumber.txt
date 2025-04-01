@@ -1,0 +1,28 @@
+[페이지: PhoneNumber]
+[목적: history, refund]
+
+이 페이지는 'history, refund' 과정 중 'PhoneNumber' 화면입니다.
+
+다음과 같은 UI 요소들이 있습니다:
+- div: '전화번호 입력{[
+                    ["1", "2", "3"],
+                    ["4", "5", "6"],
+                    ["7", "8", "9"],
+                    ["empty", "0", "del"],
+                ].map((row, i) => ({row.map((key, j) => {
+                            if (key === "empty") {
+                                return (' (id: , class: phone-number)
+- p: '전화번호 입력' (id: , class: phone-number-title)
+- input: '(텍스트 없음)' (id: , class: phone-number-input)
+- div: '{[
+                    ["1", "2", "3"],
+                    ["4", "5", "6"],
+                    ["7", "8", "9"],
+                    ["empty", "0", "del"],
+                ].map((row, i) => ({row.map((key, j) => {
+                            if (key === "empty") {
+                                return (' (id: , class: keypad)
+- div: '{row.map((key, j) => {
+                            if (key === "empty") {
+                                return (' (id: , class: keypad-row)
+- button: '(텍스트 없음)' (id: , class: phone-key)

@@ -1,0 +1,61 @@
+[페이지: TrainList]
+[목적: reservation]
+
+이 페이지는 'reservation' 과정 중 'TrainList' 화면입니다.
+
+다음과 같은 UI 요소들이 있습니다:
+- div: 'TimeTable시간대 선택출발도착가격남은 좌석 수{dummyTrains.map((train) => (handleSelect(train)}
+                                    style={{
+                                        opacity: train.disabled ? 0.3 : 1,
+                                        border:
+                                            train.trainId === selectedTrainId
+                                                ? "3px solid #4A90E2"
+                                                : "1px solid transparent",
+                                        backgroundColor:
+                                            train.trainId === selectedTrainId
+                                                ? "#E3F2FD"
+                                                : "transparent",
+                                        cursor: train.disabled
+                                            ? "not-allowed"
+                                            : "pointer",
+                                        transition: "0.3s ease-in-out",
+                                    }}
+                                >{train.departureTime}{train.arrivalTime}{train.price.toLocaleString()}원{train.availableSeats}))}이전다음' (id: , class: )
+- div: '시간대 선택출발도착가격남은 좌석 수{dummyTrains.map((train) => (handleSelect(train)}
+                                    style={{
+                                        opacity: train.disabled ? 0.3 : 1,
+                                        border:
+                                            train.trainId === selectedTrainId
+                                                ? "3px solid #4A90E2"
+                                                : "1px solid transparent",
+                                        backgroundColor:
+                                            train.trainId === selectedTrainId
+                                                ? "#E3F2FD"
+                                                : "transparent",
+                                        cursor: train.disabled
+                                            ? "not-allowed"
+                                            : "pointer",
+                                        transition: "0.3s ease-in-out",
+                                    }}
+                                >{train.departureTime}{train.arrivalTime}{train.price.toLocaleString()}원{train.availableSeats}))}' (id: , class: {styleb.box})
+- h2: '시간대 선택' (id: , class: page-title)
+- div: '출발도착가격남은 좌석 수{dummyTrains.map((train) => (handleSelect(train)}
+                                    style={{
+                                        opacity: train.disabled ? 0.3 : 1,
+                                        border:
+                                            train.trainId === selectedTrainId
+                                                ? "3px solid #4A90E2"
+                                                : "1px solid transparent",
+                                        backgroundColor:
+                                            train.trainId === selectedTrainId
+                                                ? "#E3F2FD"
+                                                : "transparent",
+                                        cursor: train.disabled
+                                            ? "not-allowed"
+                                            : "pointer",
+                                        transition: "0.3s ease-in-out",
+                                    }}
+                                >{train.departureTime}{train.arrivalTime}{train.price.toLocaleString()}원{train.availableSeats}))}' (id: , class: content-container)
+- div: '이전다음' (id: , class: display-button)
+- button: '이전' (id: , class: {`${styles.button})
+- button: '다음' (id: , class: {`${styles.button})

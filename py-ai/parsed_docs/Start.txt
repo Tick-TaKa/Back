@@ -1,0 +1,24 @@
+[페이지: Start]
+[목적: reservation, history, refund]
+
+이 페이지는 'reservation, history, refund' 과정 중 'Start' 화면입니다.
+
+다음과 같은 UI 요소들이 있습니다:
+- div: 'Startnavigate("/reservation")}
+                >
+                    예매하기navigate("/phonenumber")}
+                >
+                    조회하기' (id: , class: )
+- div: '(텍스트 없음)' (id: , class: logo)
+- img: '메인로고' (id: , class: main-logo)
+- div: 'navigate("/reservation")}
+                >
+                    예매하기navigate("/phonenumber")}
+                >
+                    조회하기' (id: , class: button-container)
+- button: 'navigate("/reservation")}
+                >
+                    예매하기' (id: , class: {`${styles.button})
+- button: 'navigate("/phonenumber")}
+                >
+                    조회하기' (id: , class: {`${styles.button})

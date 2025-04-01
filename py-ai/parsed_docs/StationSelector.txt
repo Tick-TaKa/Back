@@ -1,0 +1,16 @@
+[페이지: StationSelector]
+[목적: reservation]
+
+이 페이지는 'reservation' 과정 중 'StationSelector' 화면입니다.
+
+다음과 같은 UI 요소들이 있습니다:
+- div: '역명{stations.map((station) => (onSelect(station)}
+            >
+                {station}))}' (id: , class: station-popup)
+- div: '역명' (id: , class: station-popup-title)
+- div: '{stations.map((station) => (onSelect(station)}
+            >
+                {station}))}' (id: , class: station-grid)
+- button: 'onSelect(station)}
+            >
+                {station}' (id: , class: station-button)

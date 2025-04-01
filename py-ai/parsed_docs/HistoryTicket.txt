@@ -1,0 +1,44 @@
+[페이지: HistoryTicket]
+[목적: history, refund]
+
+이 페이지는 'history, refund' 과정 중 'HistoryTicket' 화면입니다.
+
+다음과 같은 UI 요소들이 있습니다:
+- div: 'onToggle(reservationId)}
+            />출발{departure}역{departureTime}→도착{arrival}역{arrivalTime}출발일{departureDate}예약자{passengerCount.adult ? `성인 ${passengerCount.adult}명` : ""}
+                                {passengerCount.senior ? ` 노약자 ${passengerCount.senior}명` : ""}
+                                {passengerCount.youth ? ` 청소년 ${passengerCount.youth}명` : ""}{seatNumbers.length > 0 && (예약좌석{carriageNumber}호차 {seatNumbers.join(", ")})}' (id: , class: {`ticket-container)
+- input: '(텍스트 없음)' (id: , class: history-ticket-checkbox)
+- div: '출발{departure}역{departureTime}→도착{arrival}역{arrivalTime}출발일{departureDate}예약자{passengerCount.adult ? `성인 ${passengerCount.adult}명` : ""}
+                                {passengerCount.senior ? ` 노약자 ${passengerCount.senior}명` : ""}
+                                {passengerCount.youth ? ` 청소년 ${passengerCount.youth}명` : ""}{seatNumbers.length > 0 && (예약좌석{carriageNumber}호차 {seatNumbers.join(", ")})}' (id: , class: ticket-content)
+- div: '(텍스트 없음)' (id: , class: ticket-left-bar)
+- div: '출발{departure}역{departureTime}→도착{arrival}역{arrivalTime}출발일{departureDate}예약자{passengerCount.adult ? `성인 ${passengerCount.adult}명` : ""}
+                                {passengerCount.senior ? ` 노약자 ${passengerCount.senior}명` : ""}
+                                {passengerCount.youth ? ` 청소년 ${passengerCount.youth}명` : ""}{seatNumbers.length > 0 && (예약좌석{carriageNumber}호차 {seatNumbers.join(", ")})}' (id: , class: ticket-info)
+- div: '출발{departure}역{departureTime}→도착{arrival}역{arrivalTime}' (id: , class: route-row)
+- span: '출발' (id: , class: start-label)
+- div: '{departure}역{departureTime}' (id: , class: station-block)
+- span: '{departure}역' (id: , class: station)
+- span: '{departureTime}' (id: , class: )
+- span: '→' (id: , class: arrow)
+- span: '도착' (id: , class: arrive-label)
+- div: '{arrival}역{arrivalTime}' (id: , class: station-block)
+- span: '{arrival}역' (id: , class: station)
+- span: '{arrivalTime}' (id: , class: )
+- div: '출발일{departureDate}예약자{passengerCount.adult ? `성인 ${passengerCount.adult}명` : ""}
+                                {passengerCount.senior ? ` 노약자 ${passengerCount.senior}명` : ""}
+                                {passengerCount.youth ? ` 청소년 ${passengerCount.youth}명` : ""}{seatNumbers.length > 0 && (예약좌석{carriageNumber}호차 {seatNumbers.join(", ")})}' (id: , class: details)
+- div: '출발일{departureDate}' (id: , class: detail-item)
+- span: '출발일' (id: , class: label)
+- span: '{departureDate}' (id: , class: value)
+- div: '예약자{passengerCount.adult ? `성인 ${passengerCount.adult}명` : ""}
+                                {passengerCount.senior ? ` 노약자 ${passengerCount.senior}명` : ""}
+                                {passengerCount.youth ? ` 청소년 ${passengerCount.youth}명` : ""}' (id: , class: detail-item)
+- span: '예약자' (id: , class: label)
+- span: '{passengerCount.adult ? `성인 ${passengerCount.adult}명` : ""}
+                                {passengerCount.senior ? ` 노약자 ${passengerCount.senior}명` : ""}
+                                {passengerCount.youth ? ` 청소년 ${passengerCount.youth}명` : ""}' (id: , class: value)
+- div: '예약좌석{carriageNumber}호차 {seatNumbers.join(", ")}' (id: , class: detail-item)
+- span: '예약좌석' (id: , class: label)
+- span: '{carriageNumber}호차 {seatNumbers.join(", ")}' (id: , class: value)

@@ -1,0 +1,7 @@
+사용자는 현재 '{current_page}'에 있으며,
+이전 페이지는 {previous_pages}입니다.
+
+이 페이지의 UI 요소는 다음과 같습니다:
+{ui_description}
+
+무엇을 해야 할지 안내해주세요.

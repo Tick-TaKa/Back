@@ -1,0 +1,77 @@
+[페이지: Payment]
+[목적: reservation]
+
+이 페이지는 'reservation' 과정 중 'Payment' 화면입니다.
+
+다음과 같은 UI 요소들이 있습니다:
+- div: 'Payment결제창출발: 서울역 → 도착: 부산역날짜: 2025.mm.dd{/* reservation에서 선택한 날짜 정보가 여기로 넘어와야 함!!!! */}총 인원: 성인 2명, 어린이 1명{/*reservation에서 선택한 인원수가 여기로 넘어와야 함!!!*/}지불하실 금액: nnn,nnn원개인정보 동의setAgree(!agree)}
+                        />전화번호 입력확인setPaymentMethod("credit")}>
+                            신용카드setPaymentMethod("kakao")}>
+                            카카오페이setPaymentMethod("mobile")}>
+                            휴대폰 결제setPaymentMethod("register-card")}
+                        >
+                            카드 등록<{cards.length > 0 && currentIndex < cards.length ? (기존 카드 {cards[currentIndex].last4Digits}) : (navigate("/reservation/payment/addcard")
+                                }
+                            >
+                                +)}>이전다음' (id: , class: )
+- div: '결제창출발: 서울역 → 도착: 부산역날짜: 2025.mm.dd{/* reservation에서 선택한 날짜 정보가 여기로 넘어와야 함!!!! */}총 인원: 성인 2명, 어린이 1명{/*reservation에서 선택한 인원수가 여기로 넘어와야 함!!!*/}지불하실 금액: nnn,nnn원개인정보 동의setAgree(!agree)}
+                        />전화번호 입력확인setPaymentMethod("credit")}>
+                            신용카드setPaymentMethod("kakao")}>
+                            카카오페이setPaymentMethod("mobile")}>
+                            휴대폰 결제setPaymentMethod("register-card")}
+                        >
+                            카드 등록<{cards.length > 0 && currentIndex < cards.length ? (기존 카드 {cards[currentIndex].last4Digits}) : (navigate("/reservation/payment/addcard")
+                                }
+                            >
+                                +)}>' (id: , class: {styleb.box})
+- h2: '결제창' (id: , class: page-title)
+- div: '출발: 서울역 → 도착: 부산역날짜: 2025.mm.dd{/* reservation에서 선택한 날짜 정보가 여기로 넘어와야 함!!!! */}총 인원: 성인 2명, 어린이 1명{/*reservation에서 선택한 인원수가 여기로 넘어와야 함!!!*/}지불하실 금액: nnn,nnn원개인정보 동의setAgree(!agree)}
+                        />전화번호 입력확인setPaymentMethod("credit")}>
+                            신용카드setPaymentMethod("kakao")}>
+                            카카오페이setPaymentMethod("mobile")}>
+                            휴대폰 결제setPaymentMethod("register-card")}
+                        >
+                            카드 등록<{cards.length > 0 && currentIndex < cards.length ? (기존 카드 {cards[currentIndex].last4Digits}) : (navigate("/reservation/payment/addcard")
+                                }
+                            >
+                                +)}>' (id: , class: content-container)
+- div: '출발: 서울역 → 도착: 부산역날짜: 2025.mm.dd{/* reservation에서 선택한 날짜 정보가 여기로 넘어와야 함!!!! */}총 인원: 성인 2명, 어린이 1명{/*reservation에서 선택한 인원수가 여기로 넘어와야 함!!!*/}지불하실 금액: nnn,nnn원' (id: , class: trip-info)
+- p: '출발: 서울역 → 도착: 부산역' (id: , class: )
+- p: '날짜: 2025.mm.dd' (id: , class: )
+- p: '총 인원: 성인 2명, 어린이 1명' (id: , class: )
+- p: '지불하실 금액: nnn,nnn원' (id: , class: )
+- div: '개인정보 동의setAgree(!agree)}
+                        />' (id: , class: )
+- input: '(텍스트 없음)' (id: , class: )
+- div: '전화번호 입력확인' (id: , class: )
+- input: '확인' (id: , class: )
+- button: '확인' (id: , class: )
+- div: 'setPaymentMethod("credit")}>
+                            신용카드setPaymentMethod("kakao")}>
+                            카카오페이setPaymentMethod("mobile")}>
+                            휴대폰 결제setPaymentMethod("register-card")}
+                        >
+                            카드 등록' (id: , class: payment-method)
+- button: 'setPaymentMethod("credit")}>
+                            신용카드' (id: , class: )
+- button: 'setPaymentMethod("kakao")}>
+                            카카오페이' (id: , class: )
+- button: 'setPaymentMethod("mobile")}>
+                            휴대폰 결제' (id: , class: )
+- button: 'setPaymentMethod("register-card")}
+                        >
+                            카드 등록' (id: , class: )
+- div: '<{cards.length > 0 && currentIndex < cards.length ? (기존 카드 {cards[currentIndex].last4Digits}) : (navigate("/reservation/payment/addcard")
+                                }
+                            >
+                                +)}>' (id: , class: card-slider)
+- button: '<' (id: , class: )
+- div: '기존 카드 {cards[currentIndex].last4Digits}' (id: , class: card-box)
+- div: 'navigate("/reservation/payment/addcard")
+                                }
+                            >
+                                +' (id: , class: card-box add-card)
+- button: '>' (id: , class: )
+- div: '이전다음' (id: , class: display-button)
+- button: '이전' (id: , class: {`${styles.button})
+- button: '다음' (id: , class: {`${styles.button})

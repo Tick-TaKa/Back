@@ -1,10 +1,16 @@
-# py-ai 위치에서 .\venv\Scripts\activate 후 python -m services.app 실행
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from .query_chain_service import run_current_action_chain  # ✅ 상대 경로 그대로 OK
 from dotenv import load_dotenv
+from openai import OpenAI
+import os
+
+def load_prompt(path: str) -> str:
+    with open(path, "r", encoding="utf-8") as f:
+        return f.read()
+
 load_dotenv()
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 app = FastAPI()
 
@@ -21,36 +27,41 @@ class AskRequest(BaseModel):
     log: dict
 
 def format_log_for_prompt(log: dict) -> str:
-    lines = [f"[{entry['timestamp']}] {entry['page']} - {entry['action']} : {entry['value']}" for entry in log.get("entries", [])]
-    return "\n".join(lines)
+    return "\n".join([
+        f"[{entry['timestamp']}] {entry['page']} - {entry['action']} : {entry['value']}"
+        for entry in log.get("entries", [])
+    ])
 
-@app.post("/ask")
-def ask_question(request: AskRequest):
-    question = request.question
-    log = request.log
+def create_prompt(question: str, log: dict) -> str:
     log_text = format_log_for_prompt(log)
     log_type = log.get("name")
 
     if log_type == "reservation":
-        prompt = f"""[기차 예매 과정 중인 사용자입니다]
-
-사용자 질문: {question}
-
-이전 사용자 행동:
-{log_text}
-
-이 정보를 바탕으로 답변해줘.
-"""
+        prompt_template = load_prompt("prompts/system/reservation.txt")
+        return prompt_template.format(question=question, log_text=log_text)
     else:
-        prompt = f"""사용자 질문: {question}
+        return f"""사용자 질문: {question}
 
 사용자 활동 로그:
 {log_text}
 
 이 정보를 바탕으로 답변해줘."""
 
-    answer = run_current_action_chain()
-    return {"question": question, "answer": answer}
+@app.post("/current_action")
+def ask_question(request: AskRequest):
+    system_prompt = load_prompt("prompts/system/reservation.txt")
+    prompt = create_prompt(request.question, request.log)
+
+    response = client.chat.completions.create(
+        model="gpt-3.5-turbo",
+        messages=[
+            {"role": "system", "content": system_prompt},
+            {"role": "user", "content": prompt}
+        ]
+    )
+
+    answer = response.choices[0].message.content
+    return {"question": request.question, "answer": answer}
 
 if __name__ == "__main__":
     import uvicorn

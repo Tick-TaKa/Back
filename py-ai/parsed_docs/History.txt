@@ -1,0 +1,40 @@
+[페이지: History]
+[목적: history, refund]
+
+이 페이지는 'history, refund' 과정 중 'History' 화면입니다.
+
+다음과 같은 UI 요소들이 있습니다:
+- div: '{maskedNumber}님의 예매 내역{/* 날짜 선택 UI */}조회 기간setSelectingDate("start")}
+                    >
+                        {formatDate(startDate)}{" "}
+                    ~{" "}setSelectingDate("end")}
+                    >
+                        {formatDate(endDate)}{
+                        if (value instanceof Date) {
+                            if (selectingDate === "start") {
+                                setStartDate(value' (id: , class: {styleb.box})
+- h3: '{maskedNumber}님의 예매 내역' (id: , class: page-title)
+- span: '{maskedNumber}' (id: , class: user-id)
+- div: '조회 기간setSelectingDate("start")}
+                    >
+                        {formatDate(startDate)}{" "}
+                    ~{" "}setSelectingDate("end")}
+                    >
+                        {formatDate(endDate)}' (id: , class: date-section)
+- span: '조회 기간' (id: , class: )
+- span: 'setSelectingDate("start")}
+                    >
+                        {formatDate(startDate)}{" "}
+                    ~{" "}setSelectingDate("end")}
+                    >
+                        {formatDate(endDate)}' (id: , class: period)
+- span: 'setSelectingDate("start")}
+                    >
+                        {formatDate(startDate)}' (id: , class: {`clickable)
+- span: 'setSelectingDate("end")}
+                    >
+                        {formatDate(endDate)}' (id: , class: {`clickable)
+- div: '{
+                        if (value instanceof Date) {
+                            if (selectingDate === "start") {
+                                setStartDate(value' (id: , class: calendar-wrapper)

@@ -1,0 +1,66 @@
+[페이지: BookingDetail]
+[목적: refund]
+
+이 페이지는 'refund' 과정 중 'BookingDetail' 화면입니다.
+
+다음과 같은 UI 요소들이 있습니다:
+- div: '티켓 상세 내역{reservations.map((res) => (출발{res.departure}역{res.departureTime}→도착{res.arrival}역{res.arrivalTime}))}총 인원 수: {totalPassengers}명성인:{" "}
+                        {reservations.reduce(
+                            (acc, cur) => acc + cur.passengerCount.adult,
+                            0
+                        )}노약자:{" "}
+                        {reservations.reduce(
+                            (acc, cur) => acc + cur.passengerCount.senior,
+                            0
+                        )}어린이:{" "}
+                        {reservations.reduce(
+                            (acc, cur) => acc + cur.passengerCount.youth,
+                            0
+                        )}총액: {totalPrice.toLocaleString()}원카드 정보카드 번호1111 2222 3333 ****' (id: , class: {`${styleb.box})
+- h3: '티켓 상세 내역' (id: , class: page-title)
+- div: '출발{res.departure}역{res.departureTime}→도착{res.arrival}역{res.arrivalTime}' (id: , class: route-box)
+- div: '출발{res.departure}역{res.departureTime}' (id: , class: route-detail)
+- p: '출발' (id: , class: )
+- p: '{res.departure}역' (id: , class: booking-detail-station)
+- span: '{res.departureTime}' (id: , class: )
+- span: '→' (id: , class: arrow)
+- div: '도착{res.arrival}역{res.arrivalTime}' (id: , class: route-detail)
+- p: '도착' (id: , class: )
+- p: '{res.arrival}역' (id: , class: booking-detail-station)
+- span: '{res.arrivalTime}' (id: , class: )
+- div: '총 인원 수: {totalPassengers}명성인:{" "}
+                        {reservations.reduce(
+                            (acc, cur) => acc + cur.passengerCount.adult,
+                            0
+                        )}노약자:{" "}
+                        {reservations.reduce(
+                            (acc, cur) => acc + cur.passengerCount.senior,
+                            0
+                        )}어린이:{" "}
+                        {reservations.reduce(
+                            (acc, cur) => acc + cur.passengerCount.youth,
+                            0
+                        )}' (id: , class: passenger-info)
+- p: '총 인원 수: {totalPassengers}명' (id: , class: )
+- p: '성인:{" "}
+                        {reservations.reduce(
+                            (acc, cur) => acc + cur.passengerCount.adult,
+                            0
+                        )}' (id: , class: )
+- p: '노약자:{" "}
+                        {reservations.reduce(
+                            (acc, cur) => acc + cur.passengerCount.senior,
+                            0
+                        )}' (id: , class: )
+- p: '어린이:{" "}
+                        {reservations.reduce(
+                            (acc, cur) => acc + cur.passengerCount.youth,
+                            0
+                        )}' (id: , class: )
+- div: '총액: {totalPrice.toLocaleString()}원' (id: , class: price-info)
+- p: '카드 정보' (id: , class: title-card-info)
+- div: '카드 번호1111 2222 3333 ****' (id: , class: card-number)
+- p: '카드 번호' (id: , class: )
+- p: '1111 2222 3333 ****' (id: , class: card-number-info)
+- button: '이전' (id: detail-to-history, class: {`${styles.button})
+- button: '환불하기' (id: detail-to-refund, class: {`${styles.button})

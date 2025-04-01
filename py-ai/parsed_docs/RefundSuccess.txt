@@ -1,0 +1,12 @@
+[페이지: RefundSuccess]
+[목적: refund]
+
+이 페이지는 'refund' 과정 중 'RefundSuccess' 화면입니다.
+
+다음과 같은 UI 요소들이 있습니다:
+- div: '환불 처리가 완료되었습니다.Tiketaka를 이용해주셔서 감사합니다.{/* 환불 성공창에서 메인 화면으로 이동하는 버튼 */}메인 화면으로' (id: , class: refund-success)
+- img: '환불 성공 이미지' (id: , class: success-image)
+- div: '환불 처리가 완료되었습니다.Tiketaka를 이용해주셔서 감사합니다.' (id: , class: ment)
+- p: '환불 처리가 완료되었습니다.' (id: , class: )
+- p: 'Tiketaka를 이용해주셔서 감사합니다.' (id: , class: )
+- button: '메인 화면으로' (id: refundSuccess-to-home, class: {`${styles.button})
