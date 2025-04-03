@@ -1,6 +1,5 @@
-import { Controller, Post, Body, Get, Param } from '@nestjs/common';
+import { Controller, Post, Body, Param } from '@nestjs/common';
 import { ReservationService } from './reservation.service';
-import { ReservationDetails } from './reservation.interface';
 
 @Controller('reservations')
 export class ReservationController {
@@ -12,8 +11,8 @@ export class ReservationController {
         return result;
     }
 
-    @Get(':phoneNumber')
-    async getReservation(@Param('phoneNumber') phoneNumber: string): Promise<ReservationDetails[]> {
-        return await this.reservationService.getReservation(phoneNumber);
+    @Post('search')
+    async getReservation(@Body() body: {phoneNumber: string; endDate: string }) {
+        return await this.reservationService.getReservation(body.phoneNumber,body.endDate);
     }
 }

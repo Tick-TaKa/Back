@@ -76,10 +76,12 @@ export class ReservationService {
         return { success: true, message: 'Reservation created successfully' };
     }
 
-    async getReservation(phoneNumber: string): Promise<ReservationDetails[]> { // 배열로 여러 개 반환
+    async getReservation(phoneNumber: string, endDate: string): Promise<ReservationDetails[]> { // 배열로 여러 개 반환
         const today = new Date();
         const threeMonthAgo = new Date(today);
         threeMonthAgo.setMonth(today.getMonth() - 3);
+
+        const end = new Date(endDate);
     
         const reservations = await this.reservationModel.find({ phoneNumber }).exec();
         const result: ReservationDetails[] = []; 
@@ -88,11 +90,9 @@ export class ReservationService {
             const train = await this.trainService.findTrainById(reservation.trainId);
     
             if (train) {
-                const reservationDate = new Date(reservation.reservationDate);
                 const departureDate = new Date(train.departureDate);
 
-                if (reservationDate >= threeMonthAgo && departureDate >= today) {
-                    console.log('Adding reservation to result'); 
+                if (departureDate >= threeMonthAgo && departureDate <= end) {
                     result.push({
                         reservationId: reservation.reservationId,
                         departure: train.departure,
