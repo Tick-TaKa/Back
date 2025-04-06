@@ -3,3 +3,8 @@ openai
 python-dotenv
 pydantic
 langchain_community
+fastapi
+uvicorn
+bs4
+chromadb
+tiktoken

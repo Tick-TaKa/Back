@@ -1,0 +1,8 @@
+{
+    "session_id": "abc123",
+    "current_page": "선택 페이지",
+    "completed_steps": ["시작하기", "조회하기"],
+    "remaining_steps": ["좌석 선택", "결제", "예매 완료"],
+    "question_type": "앞으로 무슨 과정이 남았어?"
+  }
+  

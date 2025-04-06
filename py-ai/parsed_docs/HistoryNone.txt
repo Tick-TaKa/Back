@@ -1,0 +1,15 @@
+[페이지: HistoryNone]
+[목적: history, refund]
+
+이 페이지는 'history, refund' 과정 중 'HistoryNone' 화면입니다.
+
+다음과 같은 UI 요소들이 있습니다:
+- div: '해당 조회기간에는예매 내역이 없습니다.{/* HistoryNone에서 메인화면으로 이동하는 버튼 */}navigate("/")}
+            >
+                메인 화면으로' (id: , class: ticket-container-none)
+- div: '해당 조회기간에는예매 내역이 없습니다.' (id: , class: no-reservation-section)
+- img: 'no-reservation' (id: , class: no-reservation-image)
+- p: '해당 조회기간에는예매 내역이 없습니다.' (id: , class: no-reservation-text)
+- button: 'navigate("/")}
+            >
+                메인 화면으로' (id: historyNone-to-home, class: {styles.button})

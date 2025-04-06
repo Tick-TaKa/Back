@@ -1,0 +1,18 @@
+[페이지: End]
+[목적: reservation]
+
+이 페이지는 'reservation' 과정 중 'End' 화면입니다.
+
+다음과 같은 UI 요소들이 있습니다:
+- div: 'Endnavigate("/")}
+                >
+                    확인이용해 주셔서 감사합니다.' (id: , class: )
+- div: '(텍스트 없음)' (id: , class: logo)
+- img: 'main-logo' (id: , class: )
+- div: 'navigate("/")}
+                >
+                    확인이용해 주셔서 감사합니다.' (id: , class: button-container)
+- button: 'navigate("/")}
+                >
+                    확인' (id: , class: {`${styles.button})
+- div: '이용해 주셔서 감사합니다.' (id: , class: )

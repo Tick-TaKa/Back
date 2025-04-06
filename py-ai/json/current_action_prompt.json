@@ -1,0 +1,16 @@
+{
+    "session_id": "abc123",
+    "current_page": "선택 페이지",
+    "previous_pages": ["시작하기 페이지", "조회 페이지"],
+    "ui_elements": [
+      { "type": "button", "id": "seat-select-12A", "text": "12A 좌석" },
+      { "type": "button", "id": "seat-select-12B", "text": "12B 좌석" },
+      { "type": "button", "id": "next-btn", "text": "다음" }
+    ],
+    "user_action_log": [
+      { "action": "click", "target": "#search-btn", "timestamp": "2025-03-31T13:30:00Z" },
+      { "action": "click", "target": "#train-option-2", "timestamp": "2025-03-31T13:32:00Z" }
+    ],
+    "question_type": "지금은 무엇을 해야 해?"
+  }
+  

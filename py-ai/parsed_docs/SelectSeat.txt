@@ -1,0 +1,93 @@
+[페이지: SelectSeat]
+[목적: reservation]
+
+이 페이지는 'reservation' 과정 중 'SelectSeat' 화면입니다.
+
+다음과 같은 UI 요소들이 있습니다:
+- div: 'Seats좌석 선택창측내측내측창측{availableSeats.map(
+                                ({ seatNumber, isAvailable }) => (isAvailable &&
+                                            toggleSeat(seatNumber)
+                                        }
+                                        disabled={!isAvailable}
+                                    >{seatNumber})
+                            )}선택한 좌석 ({selectedSeats.length} /{" "}
+                                {totalPassengers}):{selectedSeats.length > 0 ? (
+                                selectedSeats.map((seat) => ({seat}{" "}toggleSeat(seat)}
+                                        >
+                                            X))
+                            ) : (선택한 좌석이 없습니다.)}이전다음' (id: , class: )
+- div: '좌석 선택창측내측내측창측{availableSeats.map(
+                                ({ seatNumber, isAvailable }) => (isAvailable &&
+                                            toggleSeat(seatNumber)
+                                        }
+                                        disabled={!isAvailable}
+                                    >{seatNumber})
+                            )}선택한 좌석 ({selectedSeats.length} /{" "}
+                                {totalPassengers}):{selectedSeats.length > 0 ? (
+                                selectedSeats.map((seat) => ({seat}{" "}toggleSeat(seat)}
+                                        >
+                                            X))
+                            ) : (선택한 좌석이 없습니다.)}' (id: , class: {styleb.box})
+- div: '좌석 선택창측내측내측창측{availableSeats.map(
+                                ({ seatNumber, isAvailable }) => (isAvailable &&
+                                            toggleSeat(seatNumber)
+                                        }
+                                        disabled={!isAvailable}
+                                    >{seatNumber})
+                            )}선택한 좌석 ({selectedSeats.length} /{" "}
+                                {totalPassengers}):{selectedSeats.length > 0 ? (
+                                selectedSeats.map((seat) => ({seat}{" "}toggleSeat(seat)}
+                                        >
+                                            X))
+                            ) : (선택한 좌석이 없습니다.)}' (id: , class: seat-container)
+- h2: '좌석 선택' (id: , class: page-title)
+- div: '창측내측내측창측{availableSeats.map(
+                                ({ seatNumber, isAvailable }) => (isAvailable &&
+                                            toggleSeat(seatNumber)
+                                        }
+                                        disabled={!isAvailable}
+                                    >{seatNumber})
+                            )}선택한 좌석 ({selectedSeats.length} /{" "}
+                                {totalPassengers}):{selectedSeats.length > 0 ? (
+                                selectedSeats.map((seat) => ({seat}{" "}toggleSeat(seat)}
+                                        >
+                                            X))
+                            ) : (선택한 좌석이 없습니다.)}' (id: , class: content-container)
+- img: '기차 편의 시설' (id: , class: )
+- div: '창측내측내측창측{availableSeats.map(
+                                ({ seatNumber, isAvailable }) => (isAvailable &&
+                                            toggleSeat(seatNumber)
+                                        }
+                                        disabled={!isAvailable}
+                                    >{seatNumber})
+                            )}' (id: , class: seat-grid)
+- div: '창측내측내측창측' (id: , class: seat-guide)
+- div: '창측' (id: , class: )
+- div: '내측' (id: , class: )
+- div: '내측' (id: , class: )
+- div: '창측' (id: , class: )
+- button: 'isAvailable &&
+                                            toggleSeat(seatNumber)
+                                        }
+                                        disabled={!isAvailable}
+                                    >{seatNumber}' (id: , class: {`seat)
+- img: 'Seat' (id: , class: {`seat-icon)
+- div: '{seatNumber}' (id: , class: seat-number)
+- div: '선택한 좌석 ({selectedSeats.length} /{" "}
+                                {totalPassengers}):{selectedSeats.length > 0 ? (
+                                selectedSeats.map((seat) => ({seat}{" "}toggleSeat(seat)}
+                                        >
+                                            X))
+                            ) : (선택한 좌석이 없습니다.)}' (id: , class: selected-seats)
+- h4: '선택한 좌석 ({selectedSeats.length} /{" "}
+                                {totalPassengers}):' (id: , class: )
+- span: '{seat}{" "}toggleSeat(seat)}
+                                        >
+                                            X' (id: , class: selected-seat)
+- button: 'toggleSeat(seat)}
+                                        >
+                                            X' (id: , class: )
+- p: '선택한 좌석이 없습니다.' (id: , class: )
+- div: '이전다음' (id: , class: display-button)
+- button: '이전' (id: , class: {`${styles.button})
+- button: '다음' (id: , class: {`${styles.button})
