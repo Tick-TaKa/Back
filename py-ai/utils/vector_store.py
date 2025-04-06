@@ -49,3 +49,22 @@ def query_by_location_and_purpose(query: str, location: str, top_k: int = 3):
     )
 
     return results
+
+
+def query_by_purpose_only(purpose: str, query: str, top_k: int = 3):
+    embedding = client.embeddings.create(
+        model="text-embedding-3-small",
+        input=[query]
+    ).data[0].embedding
+
+    results = collection.query(
+        query_embeddings=[embedding],
+        n_results=top_k,
+        where={
+            "purpose": {
+                "$in": [purpose]
+            }
+        }
+    )
+
+    return results

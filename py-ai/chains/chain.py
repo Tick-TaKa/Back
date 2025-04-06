@@ -3,6 +3,7 @@ import json
 from openai import OpenAI
 from dotenv import load_dotenv
 from utils.vector_store import query_by_location_and_purpose
+from utils.vector_store import query_by_purpose_only
 from utils.flow_steps import FLOW_STEPS
 
 # .env 파일 로드
@@ -46,9 +47,14 @@ def run_current_action_chain(query: str, location: str, purpose: str) -> str:
 
 # 남은 단계 추출
 def get_remaining_steps(location: str, purpose: str) -> list[str]:
-    steps = FLOW_STEPS.get(purpose, [])
+    # 여러 purpose가 올 수 있는 상황도 고려
+    if purpose not in FLOW_STEPS:
+        return []
+
+    steps = FLOW_STEPS[purpose]
     if location not in steps:
         return []
+
     current_index = steps.index(location)
     return steps[current_index + 1:]
 
@@ -85,3 +91,39 @@ SelectSeats와 같은 페이지 이름을 언급하지 마세요. 사용자는 �
     return response.choices[0].message.content
 
 
+def run_flow_summary_chain(question: str, purpose: str) -> str:
+    query = f"{purpose} 전체 흐름 설명"
+
+    # 벡터 검색
+    results = query_by_purpose_only(purpose, query)
+    context = "\n".join(results["documents"][0]) if results["documents"] else "관련 문서를 찾을 수 없습니다."
+
+     # 흐름 단계 가져오기
+    steps = FLOW_STEPS.get(purpose, [])
+    step_text = "\n".join([f"- {step}" for step in steps])
+
+    prompt = f"""
+[사용자 질문]
+{question}
+
+[참고 문서]
+{f"[참고 문서]\n{context}" if context else ""}
+
+아래는 '{purpose}' 흐름에 포함된 주요 단계들입니다:
+{step_text}
+
+반드시 존댓말로 설명하세요.
+문장을 숫자로 구분하지 말고 구어체로 대답하세요.
+단계 이름은 그대로 노출하지 말고 자연스럽게 설명해주세요.
+"""
+
+    response = client.chat.completions.create(
+        model="gpt-3.5-turbo",
+        temperature=0.5,
+        messages=[
+            {"role": "system", "content": "너는 기차표 예매 시스템을 잘 아는 도우미야."},
+            {"role": "user", "content": prompt}
+        ]
+    )
+
+    return response.choices[0].message.content
