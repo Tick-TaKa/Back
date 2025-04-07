@@ -3,7 +3,7 @@ import { Document } from 'mongoose';
 
 export type TrainDocument = Train & Document;
 
-@Schema()
+@Schema({ _id: false })
 export class Seat {
     @Prop({ required: true })
     seatNumber: string;
@@ -25,7 +25,7 @@ export class Carriage {
 
 export const CarriageSchema = SchemaFactory.createForClass(Carriage);
 
-@Schema()
+@Schema({ _id: false })
 export class Train {
     @Prop({ required: true, unique: true })
     trainId: string;

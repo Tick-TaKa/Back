@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 export type UserCardDocument = UserCard & Document;
 
-@Schema()
+@Schema({ _id: false })
 export class Card {
     @Prop({ default: () => uuidv4(), unique: true })
     cardId: string;

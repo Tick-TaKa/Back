@@ -6,17 +6,23 @@ import { SeatModule } from './modules/seats/seat.module';
 import { ReservationModule } from './modules/reservations/reservation.module';
 import { CardModule } from './modules/cards/card.module';
 import { RefundModule } from './modules/refunds/refund.module';
+import { SessionModuel } from './modules/sessions/session.module';
+import { ScheduleModule } from '@nestjs/schedule';
+import { LogModule } from './modules/logs/log.module';
 
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
+    ScheduleModule.forRoot(),
     DatabaseModule,
     TrainModule,
     SeatModule,
     ReservationModule,
     CardModule,
     RefundModule,
+    SessionModuel,
+    LogModule,
   ],
 })
 export class AppModule {}
