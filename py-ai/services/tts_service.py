@@ -8,7 +8,6 @@ CLOVA_API_URL = "https://naveropenapi.apigw.ntruss.com/tts-premium/v1/tts"
 CLIENT_ID = os.getenv("CLOVA_CLIENT_ID")
 CLIENT_SECRET = os.getenv("CLOVA_CLIENT_SECRET")
 
-# encText = urllib.parse.quote("반갑습니다 네이버")
 
 def text_to_speech(text: str) -> str:
     # headers = {
@@ -24,7 +23,6 @@ def text_to_speech(text: str) -> str:
     response = urllib.request.urlopen(request, data=data.encode('utf-8'))
     rescode = response.getcode()
     if(rescode==200):
-        print("TTS mp3 저장")
         filename = f"tts_{uuid.uuid4()}.mp3"
         filepath = os.path.join("static", filename)
         response_body = response.read()
