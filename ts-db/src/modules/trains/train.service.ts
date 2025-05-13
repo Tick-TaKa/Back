@@ -21,7 +21,7 @@ export class TrainService {
         }
 
         const TrainResponseDto = trains.map((train) => ({
-            trianId: train.trainId,
+            trainId: train.trainId,
             departureTime: train.departureTime,
             arrivalTime: train.arrivalTime,
             price: train.price.adult, // 성인 가격만 반환

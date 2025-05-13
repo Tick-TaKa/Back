@@ -14,7 +14,7 @@ export class Seat {
 
 export const SeatSchema = SchemaFactory.createForClass(Seat);
 
-@Schema()
+@Schema({ _id: false })
 export class Carriage {
     @Prop({ required: true })
     carriageNumber: number;

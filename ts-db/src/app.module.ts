@@ -9,7 +9,7 @@ import { RefundModule } from './modules/refunds/refund.module';
 import { SessionModuel } from './modules/sessions/session.module';
 import { ScheduleModule } from '@nestjs/schedule';
 import { LogModule } from './modules/logs/log.module';
-
+import { LLMModule } from './modules/LLM/llm.module';
 
 @Module({
   imports: [
@@ -23,6 +23,7 @@ import { LogModule } from './modules/logs/log.module';
     RefundModule,
     SessionModuel,
     LogModule,
+    LLMModule,
   ],
 })
 export class AppModule {}
