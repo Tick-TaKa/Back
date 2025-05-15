@@ -76,11 +76,12 @@ export class ReservationService {
         return { success: true, message: 'Reservation created successfully' };
     }
 
-    async getReservation(phoneNumber: string, endDate: string): Promise<ReservationDetails[]> { // 배열로 여러 개 반환
-        const today = new Date();
-        const threeMonthAgo = new Date(today);
-        threeMonthAgo.setMonth(today.getMonth() - 3);
+    async getReservation(phoneNumber: string, startDate: string, endDate: string): Promise<ReservationDetails[]> { // 배열로 여러 개 반환
+        // const today = new Date();
+        // const threeMonthAgo = new Date(today);
+        // threeMonthAgo.setMonth(today.getMonth() - 3);
 
+        const start = new Date(startDate);
         const end = new Date(endDate);
     
         const reservations = await this.reservationModel.find({ phoneNumber }).exec();
@@ -92,7 +93,7 @@ export class ReservationService {
             if (train) {
                 const departureDate = new Date(train.departureDate);
 
-                if (departureDate >= threeMonthAgo && departureDate <= end) {
+                if (departureDate >= start && departureDate <= end) {
                     result.push({
                         reservationId: reservation.reservationId,
                         departure: train.departure,

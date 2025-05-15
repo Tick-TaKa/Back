@@ -12,7 +12,7 @@ export class ReservationController {
     }
 
     @Post('search')
-    async getReservation(@Body() body: {phoneNumber: string; endDate: string }) {
-        return await this.reservationService.getReservation(body.phoneNumber,body.endDate);
+    async getReservation(@Body() body: {phoneNumber: string; startDate: string; endDate: string }) {
+        return await this.reservationService.getReservation(body.phoneNumber,body.startDate, body.endDate);
     }
 }
