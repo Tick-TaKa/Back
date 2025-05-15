@@ -32,18 +32,29 @@ export class ReservationService {
             throw new BadRequestException('Carriage not found');
         }
 
-        seatNumbers.forEach(seatNumber => {
-            const seat = carriage.seats.find(s => s.seatNumber === seatNumber);
-            if (!seat) {
+        // 예매 시도 전 좌석 유효성만 확인
+        for (const seatNumber of seatNumbers) {
+            const seat = carriage.seats.find(s => s.seatNumber === seatNumber) ;
+            if(!seat) {
                 throw new BadRequestException(`Seat ${seatNumber} not found`);
             }
             if (seat.status === 'reserved') {
                 throw new BadRequestException(`Seat ${seatNumber} is already reserved`);
             }
-            seat.status = 'reserved';
-        });
+        }
 
-        await this.trainService.updateTrainSeats(trainId, train.seats); // 기차 모델에 좌석 상태 저장
+        // seatNumbers.forEach(seatNumber => {
+        //     const seat = carriage.seats.find(s => s.seatNumber === seatNumber);
+        //     if (!seat) {
+        //         throw new BadRequestException(`Seat ${seatNumber} not found`);
+        //     }
+        //     if (seat.status === 'reserved') {
+        //         throw new BadRequestException(`Seat ${seatNumber} is already reserved`);
+        //     }
+        //     seat.status = 'reserved';
+        // });
+
+        // await this.trainService.updateTrainSeats(trainId, train.seats); // 기차 모델에 좌석 상태 저장
 
         const adultPrice = train.price.adult;
         const seniorPrice = train.price.senior;
@@ -71,9 +82,22 @@ export class ReservationService {
             reservationDate: formattedDate,
         });
 
-        await reservation.save();
+        try {
+            await reservation.save();
 
-        return { success: true, message: 'Reservation created successfully' };
+            // 예매 정보 저장 후 좌석 상태 변경
+            for (const seatNumber of seatNumbers) {
+                const seat = carriage.seats.find(s => s.seatNumber === seatNumber);
+                if (seat) seat.status = 'reserved';
+            }
+
+            await this.trainService.updateTrainSeats(trainId, train.seats)
+
+            return { success: true, message: 'Reservation created successfully' };
+        } catch (err) {
+            console.error('[createReservation] Reservation save failed:', err);
+            throw new BadRequestException('Failed to create reservation: ' + err.message);
+        }
     }
 
     async getReservation(phoneNumber: string, startDate: string, endDate: string): Promise<ReservationDetails[]> { // 배열로 여러 개 반환
