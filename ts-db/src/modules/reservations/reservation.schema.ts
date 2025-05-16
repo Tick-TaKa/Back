@@ -38,7 +38,7 @@ export class Reservation {
     @Prop({ required: true })
     totalAmount: number;
 
-    @Prop({ required: true, enum: ['card', 'kakaopay', 'phone'] })
+    @Prop({ required: true, enum: ['card', 'kakao', 'mobile'] })
     paymentMethod: string;
 
     @Prop({
