@@ -11,8 +11,8 @@ export class SessionController {
     }
 
     @Patch('update')
-    async updateSession(@Body() body: {sessionId: string; current_page: string; newPurpose?: string}) {
-        return this.sessionService.updateSession(body.sessionId, body.current_page, body.newPurpose);
+    async updateSession(@Body() body: {sessionId: string; newPurpose?: string}) {
+        return this.sessionService.updateSession(body.sessionId, body.newPurpose);
     }
 
     @Patch('end')

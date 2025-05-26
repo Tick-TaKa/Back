@@ -27,7 +27,7 @@ export class SessionService {
         return await newSession.save();
     }
 
-    async updateSession(sessionId: string, current_page: string, newPurpose? : string): Promise<Session | null> {
+    async updateSession(sessionId: string, newPurpose? : string): Promise<Session | null> {
         const session = await this.sessionModel.findOne({ sessionId }).exec();
         if (!session) {
             throw new BadRequestException(`Session with ID ${sessionId} not found`);
@@ -36,26 +36,35 @@ export class SessionService {
         const now = new Date();
         const kstNow = new Date(now.getTime() + 9 * 60 * 60 * 1000);
 
-        const updateFields: any = {
-            current_page,
+        const updateSetFields: any = {
             last_interaction: kstNow
         };
 
         if (newPurpose && newPurpose !== session.purpose) {
-            updateFields.purpose = newPurpose;
+            updateSetFields.purpose = newPurpose;
 
             await this.logModel.updateMany(
                 { sessionId },
                 { $set: { purpose: newPurpose } }
             );
         }
+
+        // await this.logModel.updateOne(
+        //     { sessionId },
+        //     { $set: { location: current_page }}
+        // ).exec();
         
+        const updateQuery: any = {
+            $set: updateSetFields,
+        }
+
+        if (!newPurpose || newPurpose === session.purpose) {
+            updateQuery.$push = { previous_pages: session.current_page };
+        }
+
         const updatedSession = await this.sessionModel.findOneAndUpdate(
             { sessionId },
-            {
-                $set: updateFields,
-                $push: { previous_pages: session.current_page }
-            },
+            updateQuery,
             { new: true }
         ).exec()
 
@@ -66,7 +75,7 @@ export class SessionService {
         const session = await this.sessionModel.findOne({ sessionId }).exec();
         
         if (!session) {
-            throw new Error('Session not found');
+            throw new Error(`Session with ID ${sessionId} not found-sessionEnd`);
         }
 
         await this.sessionModel.updateOne(
@@ -81,6 +90,11 @@ export class SessionService {
                 $push: { previous_pages: session.current_page }
             },
         );
+
+        await this.logModel.updateOne(
+            { sessionId },
+            { $set: { location: current_page } }
+        )
     }
 
 }
