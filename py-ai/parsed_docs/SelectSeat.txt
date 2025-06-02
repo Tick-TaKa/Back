@@ -4,90 +4,41 @@
 이 페이지는 'reservation' 과정 중 'SelectSeat' 화면입니다.
 
 다음과 같은 UI 요소들이 있습니다:
-- div: 'Seats좌석 선택창측내측내측창측{availableSeats.map(
-                                ({ seatNumber, isAvailable }) => (isAvailable &&
-                                            toggleSeat(seatNumber)
-                                        }
-                                        disabled={!isAvailable}
-                                    >{seatNumber})
-                            )}선택한 좌석 ({selectedSeats.length} /{" "}
-                                {totalPassengers}):{selectedSeats.length > 0 ? (
-                                selectedSeats.map((seat) => ({seat}{" "}toggleSeat(seat)}
-                                        >
-                                            X))
-                            ) : (선택한 좌석이 없습니다.)}이전다음' (id: , class: )
-- div: '좌석 선택창측내측내측창측{availableSeats.map(
-                                ({ seatNumber, isAvailable }) => (isAvailable &&
-                                            toggleSeat(seatNumber)
-                                        }
-                                        disabled={!isAvailable}
-                                    >{seatNumber})
-                            )}선택한 좌석 ({selectedSeats.length} /{" "}
-                                {totalPassengers}):{selectedSeats.length > 0 ? (
-                                selectedSeats.map((seat) => ({seat}{" "}toggleSeat(seat)}
-                                        >
-                                            X))
-                            ) : (선택한 좌석이 없습니다.)}' (id: , class: {styleb.box})
-- div: '좌석 선택창측내측내측창측{availableSeats.map(
-                                ({ seatNumber, isAvailable }) => (isAvailable &&
-                                            toggleSeat(seatNumber)
-                                        }
-                                        disabled={!isAvailable}
-                                    >{seatNumber})
-                            )}선택한 좌석 ({selectedSeats.length} /{" "}
-                                {totalPassengers}):{selectedSeats.length > 0 ? (
-                                selectedSeats.map((seat) => ({seat}{" "}toggleSeat(seat)}
-                                        >
-                                            X))
-                            ) : (선택한 좌석이 없습니다.)}' (id: , class: seat-container)
+- div: '{/* [LLM] 좌석 선택 상단 박스 */}좌석 선택{reservationData && trainInfo ? ({/* [LLM] 호차 선택 드롭다운 */}{
+                                        const selected = Number(e.target.value' (id: , class: )
+- div: '좌석 선택{reservationData && trainInfo ? ({/* [LLM] 호차 선택 드롭다운 */}{
+                                        const selected = Number(e.target.value' (id: , class: {styleb.box})
+- div: '좌석 선택{reservationData && trainInfo ? ({/* [LLM] 호차 선택 드롭다운 */}{
+                                        const selected = Number(e.target.value' (id: , class: seat-container)
 - h2: '좌석 선택' (id: , class: page-title)
-- div: '창측내측내측창측{availableSeats.map(
-                                ({ seatNumber, isAvailable }) => (isAvailable &&
-                                            toggleSeat(seatNumber)
-                                        }
-                                        disabled={!isAvailable}
-                                    >{seatNumber})
-                            )}선택한 좌석 ({selectedSeats.length} /{" "}
-                                {totalPassengers}):{selectedSeats.length > 0 ? (
-                                selectedSeats.map((seat) => ({seat}{" "}toggleSeat(seat)}
-                                        >
-                                            X))
-                            ) : (선택한 좌석이 없습니다.)}' (id: , class: content-container)
-- img: '기차 편의 시설' (id: , class: )
-- div: '창측내측내측창측{availableSeats.map(
-                                ({ seatNumber, isAvailable }) => (isAvailable &&
-                                            toggleSeat(seatNumber)
-                                        }
-                                        disabled={!isAvailable}
-                                    >{seatNumber})
-                            )}' (id: , class: seat-grid)
-- div: '창측내측내측창측' (id: , class: seat-guide)
-- div: '창측' (id: , class: )
-- div: '내측' (id: , class: )
-- div: '내측' (id: , class: )
-- div: '창측' (id: , class: )
-- button: 'isAvailable &&
-                                            toggleSeat(seatNumber)
-                                        }
-                                        disabled={!isAvailable}
-                                    >{seatNumber}' (id: , class: {`seat)
-- img: 'Seat' (id: , class: {`seat-icon)
-- div: '{seatNumber}' (id: , class: seat-number)
-- div: '선택한 좌석 ({selectedSeats.length} /{" "}
-                                {totalPassengers}):{selectedSeats.length > 0 ? (
-                                selectedSeats.map((seat) => ({seat}{" "}toggleSeat(seat)}
-                                        >
-                                            X))
-                            ) : (선택한 좌석이 없습니다.)}' (id: , class: selected-seats)
-- h4: '선택한 좌석 ({selectedSeats.length} /{" "}
-                                {totalPassengers}):' (id: , class: )
-- span: '{seat}{" "}toggleSeat(seat)}
-                                        >
-                                            X' (id: , class: selected-seat)
-- button: 'toggleSeat(seat)}
-                                        >
-                                            X' (id: , class: )
-- p: '선택한 좌석이 없습니다.' (id: , class: )
-- div: '이전다음' (id: , class: display-button)
-- button: '이전' (id: , class: {`${styles.button})
-- button: '다음' (id: , class: {`${styles.button})
+- div: '{/* [LLM] 호차 선택 드롭다운 */}{
+                                        const selected = Number(e.target.value' (id: , class: content-container)
+- div: '{
+                                        const selected = Number(e.target.value' (id: , class: carriage-selection)
+- comment-hint: '좌석 선택 페이지입니다. 사용자가 기차 좌석을 선택할 수 있습니다.' (id: , class: )
+- comment-hint: '좌석 선택 페이지 컴포넌트입니다.' (id: , class: )
+- comment-hint: '이전 페이지로부터 전달된 예약 정보와 기차 정보를 가져옵니다.' (id: , class: )
+- comment-hint: '총 승객 수 계산 (성인 + 청소년 + 경로)' (id: , class: )
+- comment-hint: '현재 선택된 호차 번호' (id: , class: )
+- comment-hint: '전체 호차에 대한 좌석 정보 맵' (id: , class: )
+- comment-hint: '전체 호차에 대한 선택된 좌석 정보' (id: , class: )
+- comment-hint: '현재 호차의 선택된 좌석 및 가능한 좌석 리스트' (id: , class: )
+- comment-hint: '현재 세션 ID를 localStorage에서 불러옵니다.' (id: , class: )
+- comment-hint: '페이지 진입 시 세션 위치 업데이트 및 로그 기록' (id: , class: )
+- comment-hint: '페이지 도착 로그 기록' (id: , class: )
+- comment-hint: '공통 클릭 로그 기록 함수' (id: , class: )
+- comment-hint: '좌석 정보 불러오기 (1~3호차)' (id: , class: )
+- comment-hint: '선택 좌석 정보를 세션에 실시간 저장' (id: , class: )
+- comment-hint: '좌석 선택/해제 처리 함수' (id: , class: )
+- comment-hint: '좌석 제거 버튼 클릭 시 호출' (id: , class: )
+- comment-hint: '다음 버튼 클릭 시 결제 페이지로 이동' (id: , class: )
+- comment-hint: '이전 버튼 클릭 시 기차 선택 페이지로 이동' (id: , class: )
+- comment-hint: '좌석 선택 상단 박스' (id: , class: )
+- comment-hint: '호차 선택 드롭다운' (id: , class: )
+- comment-hint: '기차 편의 시설 이미지' (id: , class: )
+- comment-hint: '좌석 격자 그리드' (id: , class: )
+- comment-hint: '좌석 안내 텍스트' (id: , class: )
+- comment-hint: '4줄 × 4열(A-D) 좌석 버튼 렌더링' (id: , class: )
+- comment-hint: '선택된 좌석 리스트 표시 및 제거 버튼' (id: , class: )
+- comment-hint: '기차 정보 없음 안내' (id: , class: )
+- comment-hint: '페이지 하단 버튼: 이전/다음' (id: , class: )

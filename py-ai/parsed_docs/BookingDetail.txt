@@ -4,63 +4,75 @@
 이 페이지는 'refund' 과정 중 'BookingDetail' 화면입니다.
 
 다음과 같은 UI 요소들이 있습니다:
-- div: '티켓 상세 내역{reservations.map((res) => (출발{res.departure}역{res.departureTime}→도착{res.arrival}역{res.arrivalTime}))}총 인원 수: {totalPassengers}명성인:{" "}
-                        {reservations.reduce(
-                            (acc, cur) => acc + cur.passengerCount.adult,
-                            0
-                        )}노약자:{" "}
-                        {reservations.reduce(
-                            (acc, cur) => acc + cur.passengerCount.senior,
-                            0
-                        )}어린이:{" "}
-                        {reservations.reduce(
-                            (acc, cur) => acc + cur.passengerCount.youth,
-                            0
-                        )}총액: {totalPrice.toLocaleString()}원카드 정보카드 번호1111 2222 3333 ****' (id: , class: {`${styleb.box})
+- div: '티켓 상세 내역{/* [LLM] 환불 정보가 존재할 때만 상세 내용 표시 */}
+                {refundDetails && (
+                    <>
+                        {/* [LLM] 출발 → 도착 정보 */}출발{refundDetails.departure}역{refundDetails.departureTime}→도착{refundDetails.arrival}역{refundDetails.arrivalTime}{/* [LLM] 인원 수 정보 */}총 인원 수: {refundDetails.passengerCount.total}명성인: {refundDetails.passengerCount.adult}노약자: {refundDetails.passengerCount.senior}어린이: {refundDetails.passengerCount.youth}{/* [LLM] 환불 금액 정보 */}총 환불액: {refundDetails.refundAmount.toLocaleString()}원{/* [LLM] 결제 수단이 카드일 경우 카드 번호 표시 */}
+                        {refundDetails.paymentMethod.type === "card" ? (
+                            <>카드 정보카드 번호{refundDetails.paymentMethod.cardNumber.replace(
+                                                /\d{4}$/,
+                                                "****"
+                                            )}) : (
+                            // [LLM] 카드가 아닌 결제 수단 (카카오페이 / 휴대폰 결제)
+                            <>{refundDetails.paymentMethod.type === "kakao"
+                                        ? "카카오페이"
+                                        : refundDetails.paymentMethod.type === "mobile"
+                                        ? "휴대폰 결제"
+                                        : "결제 정보"})}
+                    
+                )}' (id: , class: {`${styleb.box})
 - h3: '티켓 상세 내역' (id: , class: page-title)
-- div: '출발{res.departure}역{res.departureTime}→도착{res.arrival}역{res.arrivalTime}' (id: , class: route-box)
-- div: '출발{res.departure}역{res.departureTime}' (id: , class: route-detail)
+- div: '출발{refundDetails.departure}역{refundDetails.departureTime}→도착{refundDetails.arrival}역{refundDetails.arrivalTime}' (id: , class: route-box)
+- div: '출발{refundDetails.departure}역{refundDetails.departureTime}' (id: , class: route-detail)
 - p: '출발' (id: , class: )
-- p: '{res.departure}역' (id: , class: booking-detail-station)
-- span: '{res.departureTime}' (id: , class: )
+- p: '{refundDetails.departure}역' (id: , class: booking-detail-station)
+- span: '{refundDetails.departureTime}' (id: , class: )
 - span: '→' (id: , class: arrow)
-- div: '도착{res.arrival}역{res.arrivalTime}' (id: , class: route-detail)
+- div: '도착{refundDetails.arrival}역{refundDetails.arrivalTime}' (id: , class: route-detail)
 - p: '도착' (id: , class: )
-- p: '{res.arrival}역' (id: , class: booking-detail-station)
-- span: '{res.arrivalTime}' (id: , class: )
-- div: '총 인원 수: {totalPassengers}명성인:{" "}
-                        {reservations.reduce(
-                            (acc, cur) => acc + cur.passengerCount.adult,
-                            0
-                        )}노약자:{" "}
-                        {reservations.reduce(
-                            (acc, cur) => acc + cur.passengerCount.senior,
-                            0
-                        )}어린이:{" "}
-                        {reservations.reduce(
-                            (acc, cur) => acc + cur.passengerCount.youth,
-                            0
-                        )}' (id: , class: passenger-info)
-- p: '총 인원 수: {totalPassengers}명' (id: , class: )
-- p: '성인:{" "}
-                        {reservations.reduce(
-                            (acc, cur) => acc + cur.passengerCount.adult,
-                            0
-                        )}' (id: , class: )
-- p: '노약자:{" "}
-                        {reservations.reduce(
-                            (acc, cur) => acc + cur.passengerCount.senior,
-                            0
-                        )}' (id: , class: )
-- p: '어린이:{" "}
-                        {reservations.reduce(
-                            (acc, cur) => acc + cur.passengerCount.youth,
-                            0
-                        )}' (id: , class: )
-- div: '총액: {totalPrice.toLocaleString()}원' (id: , class: price-info)
+- p: '{refundDetails.arrival}역' (id: , class: booking-detail-station)
+- span: '{refundDetails.arrivalTime}' (id: , class: )
+- div: '총 인원 수: {refundDetails.passengerCount.total}명성인: {refundDetails.passengerCount.adult}노약자: {refundDetails.passengerCount.senior}어린이: {refundDetails.passengerCount.youth}' (id: , class: passenger-info)
+- p: '총 인원 수: {refundDetails.passengerCount.total}명' (id: , class: )
+- p: '성인: {refundDetails.passengerCount.adult}' (id: , class: )
+- p: '노약자: {refundDetails.passengerCount.senior}' (id: , class: )
+- p: '어린이: {refundDetails.passengerCount.youth}' (id: , class: )
+- div: '총 환불액: {refundDetails.refundAmount.toLocaleString()}원' (id: , class: price-info)
 - p: '카드 정보' (id: , class: title-card-info)
-- div: '카드 번호1111 2222 3333 ****' (id: , class: card-number)
+- div: '카드 번호{refundDetails.paymentMethod.cardNumber.replace(
+                                                /\d{4}$/,
+                                                "****"
+                                            )}' (id: , class: card-number)
 - p: '카드 번호' (id: , class: )
-- p: '1111 2222 3333 ****' (id: , class: card-number-info)
+- p: '{refundDetails.paymentMethod.cardNumber.replace(
+                                                /\d{4}$/,
+                                                "****"
+                                            )}' (id: , class: card-number-info)
+- p: '{refundDetails.paymentMethod.type === "kakao"
+                                        ? "카카오페이"
+                                        : refundDetails.paymentMethod.type === "mobile"
+                                        ? "휴대폰 결제"
+                                        : "결제 정보"}' (id: , class: title-card-info)
 - button: '이전' (id: detail-to-history, class: {`${styles.button})
 - button: '환불하기' (id: detail-to-refund, class: {`${styles.button})
+- comment-hint: '예매 상세 내역 페이지 컴포넌트' (id: , class: )
+- comment-hint: '환불 상세 정보를 나타내는 인터페이스' (id: , class: )
+- comment-hint: '페이지 진입 시 router state로 받은 예약 ID 구조' (id: , class: )
+- comment-hint: 'router로 전달받은 예약 ID (배열 중 첫 번째 항목 기준)' (id: , class: )
+- comment-hint: '상태 정의' (id: , class: )
+- comment-hint: '세션 불러오고 BookingDetail 도착 로그 기록' (id: , class: )
+- comment-hint: '예약 ID 기준으로 백엔드 환불 상세 정보 조회' (id: , class: )
+- comment-hint: '뒤로가기 버튼 → 이전 페이지로' (id: , class: )
+- comment-hint: '환불 버튼 클릭 → 모달 열고 로그 기록' (id: , class: )
+- comment-hint: '환불 모달에서 예 클릭 → 로그 기록 + 세션 종료 + 환불 성공 페이지 이동' (id: , class: )
+- comment-hint: '환불 모달에서 아니오 클릭 → 로그 기록 + 모달 닫기' (id: , class: )
+- comment-hint: '상세 정보 컨테이너 (모달 열릴 때 블러 처리)' (id: , class: )
+- comment-hint: '환불 정보가 존재할 때만 상세 내용 표시' (id: , class: )
+- comment-hint: '출발 → 도착 정보' (id: , class: )
+- comment-hint: '인원 수 정보' (id: , class: )
+- comment-hint: '환불 금액 정보' (id: , class: )
+- comment-hint: '결제 수단이 카드일 경우 카드 번호 표시' (id: , class: )
+- comment-hint: '카드가 아닌 결제 수단 (카카오페이 / 휴대폰 결제)' (id: , class: )
+- comment-hint: '이전 버튼' (id: , class: )
+- comment-hint: '환불하기 버튼' (id: , class: )
+- comment-hint: '환불 확인 모달' (id: , class: )

@@ -4,37 +4,75 @@
 이 페이지는 'history, refund' 과정 중 'History' 화면입니다.
 
 다음과 같은 UI 요소들이 있습니다:
-- div: '{maskedNumber}님의 예매 내역{/* 날짜 선택 UI */}조회 기간setSelectingDate("start")}
-                    >
-                        {formatDate(startDate)}{" "}
-                    ~{" "}setSelectingDate("end")}
-                    >
-                        {formatDate(endDate)}{
-                        if (value instanceof Date) {
-                            if (selectingDate === "start") {
-                                setStartDate(value' (id: , class: {styleb.box})
-- h3: '{maskedNumber}님의 예매 내역' (id: , class: page-title)
+- div: '{/* [LLM] 페이지 타이틀 (탭 제목) */}history{/* [LLM] 박스 스타일로 감싸는 메인 콘텐츠 */}{/* [LLM] 사용자 식별자 포함 페이지 제목 */}{maskedNumber}님의 예매
+                    내역{/* [LLM] 조회 기간 표시 및 날짜 선택 영역 */}조회 기간{/* [LLM] 시작일 선택 버튼 */}setSelectingDate("start")}
+                        >
+                            {formatDate(startDate)}{" "}
+                        ~ {/* [LLM] 종료일 선택 버튼 */}setSelectingDate("end")}
+                        >
+                            {formatDate(endDate)}{/* [LLM] 캘린더 컴포넌트 (react-calendar) */}{
+                            if (value instanceof Date) {
+                                handleCalendarClick(value' (id: , class: )
+- div: '{/* [LLM] 사용자 식별자 포함 페이지 제목 */}{maskedNumber}님의 예매
+                    내역{/* [LLM] 조회 기간 표시 및 날짜 선택 영역 */}조회 기간{/* [LLM] 시작일 선택 버튼 */}setSelectingDate("start")}
+                        >
+                            {formatDate(startDate)}{" "}
+                        ~ {/* [LLM] 종료일 선택 버튼 */}setSelectingDate("end")}
+                        >
+                            {formatDate(endDate)}{/* [LLM] 캘린더 컴포넌트 (react-calendar) */}{
+                            if (value instanceof Date) {
+                                handleCalendarClick(value' (id: , class: {styleb.box})
+- h3: '{maskedNumber}님의 예매
+                    내역' (id: , class: page-title)
 - span: '{maskedNumber}' (id: , class: user-id)
-- div: '조회 기간setSelectingDate("start")}
-                    >
-                        {formatDate(startDate)}{" "}
-                    ~{" "}setSelectingDate("end")}
-                    >
-                        {formatDate(endDate)}' (id: , class: date-section)
+- div: '조회 기간{/* [LLM] 시작일 선택 버튼 */}setSelectingDate("start")}
+                        >
+                            {formatDate(startDate)}{" "}
+                        ~ {/* [LLM] 종료일 선택 버튼 */}setSelectingDate("end")}
+                        >
+                            {formatDate(endDate)}' (id: , class: date-section)
 - span: '조회 기간' (id: , class: )
+- span: '{/* [LLM] 시작일 선택 버튼 */}setSelectingDate("start")}
+                        >
+                            {formatDate(startDate)}{" "}
+                        ~ {/* [LLM] 종료일 선택 버튼 */}setSelectingDate("end")}
+                        >
+                            {formatDate(endDate)}' (id: , class: period)
 - span: 'setSelectingDate("start")}
-                    >
-                        {formatDate(startDate)}{" "}
-                    ~{" "}setSelectingDate("end")}
-                    >
-                        {formatDate(endDate)}' (id: , class: period)
-- span: 'setSelectingDate("start")}
-                    >
-                        {formatDate(startDate)}' (id: , class: {`clickable)
+                        >
+                            {formatDate(startDate)}' (id: , class: {`clickable)
 - span: 'setSelectingDate("end")}
-                    >
-                        {formatDate(endDate)}' (id: , class: {`clickable)
+                        >
+                            {formatDate(endDate)}' (id: , class: {`clickable)
 - div: '{
-                        if (value instanceof Date) {
-                            if (selectingDate === "start") {
-                                setStartDate(value' (id: , class: calendar-wrapper)
+                            if (value instanceof Date) {
+                                handleCalendarClick(value' (id: , class: calendar-wrapper)
+- comment-hint: '예매 내역 확인 페이지 컴포넌트' (id: , class: )
+- comment-hint: '개별 예매 데이터에 대한 Reservation 객체 타입 정의' (id: , class: )
+- comment-hint: '현재 페이지 라우팅 상태에서 전화번호, 세션 ID 추출' (id: , class: )
+- comment-hint: '날짜 선택용: 기본값은 오늘과 3개월 전' (id: , class: )
+- comment-hint: '상태 변수 정의' (id: , class: )
+- comment-hint: '컴포넌트 마운트 시 히스토리 세션 업데이트 및 첫 로그 기록' (id: , class: )
+- comment-hint: '단일 티켓 선택 또는 해제' (id: , class: )
+- comment-hint: '날짜 객체를 'YYYY-MM-DD' 형식의 문자열로 변환' (id: , class: )
+- comment-hint: '서버에 예매 내역 조회 요청 → 날짜 범위 및 전화번호 기반 필터링' (id: , class: )
+- comment-hint: '"선택항목 환불" 버튼 클릭 시 처리 → 환불 모달 열기 + 로그 기록' (id: , class: )
+- comment-hint: '환불 모달 내 "예" 클릭 시 → 로컬스토리지에서 예약 제거 후 환불 성공 페이지로 이동' (id: , class: )
+- comment-hint: '환불 모달 내 "아니오" 클릭 시 → 모달 닫기 및 로그 기록' (id: , class: )
+- comment-hint: '달력 날짜 클릭 시 로그 기록' (id: , class: )
+- comment-hint: ''전체 선택' 체크박스 클릭 시 로그 기록' (id: , class: )
+- comment-hint: '전체 페이지 컨테이너' (id: , class: )
+- comment-hint: '페이지 타이틀 (탭 제목)' (id: , class: )
+- comment-hint: '박스 스타일로 감싸는 메인 콘텐츠' (id: , class: )
+- comment-hint: '사용자 식별자 포함 페이지 제목' (id: , class: )
+- comment-hint: '조회 기간 표시 및 날짜 선택 영역' (id: , class: )
+- comment-hint: '시작일 선택 버튼' (id: , class: )
+- comment-hint: '종료일 선택 버튼' (id: , class: )
+- comment-hint: '캘린더 컴포넌트 (react-calendar)' (id: , class: )
+- comment-hint: '조회 버튼: 예매 내역 불러오기' (id: , class: )
+- comment-hint: '예매 내역 또는 조회 실패 시 메시지' (id: , class: )
+- comment-hint: '예매 내역이 없는 경우 보여지는 컴포넌트' (id: , class: )
+- comment-hint: '예매 내역 헤더: 전체 선택 체크박스 포함' (id: , class: )
+- comment-hint: '예매 티켓 리스트 영역' (id: , class: )
+- comment-hint: '하나 이상 선택되었을 경우 환불 버튼 표시' (id: , class: )
+- comment-hint: '환불 확인 모달이 열렸을 때만 표시' (id: , class: )

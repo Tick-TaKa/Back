@@ -4,58 +4,74 @@
 이 페이지는 'reservation' 과정 중 'TrainList' 화면입니다.
 
 다음과 같은 UI 요소들이 있습니다:
-- div: 'TimeTable시간대 선택출발도착가격남은 좌석 수{dummyTrains.map((train) => (handleSelect(train)}
+- div: '{/* [LLM] 기차 리스트 상단 박스 */}시간대 선택{/* [LLM] 기차 정보 테이블 */}출발도착가격남은좌석 수{trains.map((train) => (
+                                // [LLM] 기차 한 줄을 클릭 시 선택됨. 이미 선택된 기차는 배경색 강조.handleSelect(train)}
                                     style={{
-                                        opacity: train.disabled ? 0.3 : 1,
-                                        border:
-                                            train.trainId === selectedTrainId
-                                                ? "3px solid #4A90E2"
-                                                : "1px solid transparent",
+                                        opacity: train.availableSeats === 0 ? 0.3 : 1,
                                         backgroundColor:
-                                            train.trainId === selectedTrainId
+                                            train.trainId === selectedTrain?.trainId
                                                 ? "#E3F2FD"
                                                 : "transparent",
-                                        cursor: train.disabled
-                                            ? "not-allowed"
-                                            : "pointer",
+                                        cursor: train.availableSeats === 0 ? "not-allowed" : "pointer",
                                         transition: "0.3s ease-in-out",
+                                        borderRadius: "8px",
                                     }}
-                                >{train.departureTime}{train.arrivalTime}{train.price.toLocaleString()}원{train.availableSeats}))}이전다음' (id: , class: )
-- div: '시간대 선택출발도착가격남은 좌석 수{dummyTrains.map((train) => (handleSelect(train)}
+                                    class={
+                                        train.trainId === selectedTrain?.trainId ? "selected-row" : ""
+                                    }
+                                >{train.departureTime}{train.arrivalTime}{train.price.toLocaleString()}원{train.availableSeats}))}{/* [LLM] 하단 이동 버튼: 이전, 다음 */}이전다음' (id: , class: )
+- div: '시간대 선택{/* [LLM] 기차 정보 테이블 */}출발도착가격남은좌석 수{trains.map((train) => (
+                                // [LLM] 기차 한 줄을 클릭 시 선택됨. 이미 선택된 기차는 배경색 강조.handleSelect(train)}
                                     style={{
-                                        opacity: train.disabled ? 0.3 : 1,
-                                        border:
-                                            train.trainId === selectedTrainId
-                                                ? "3px solid #4A90E2"
-                                                : "1px solid transparent",
+                                        opacity: train.availableSeats === 0 ? 0.3 : 1,
                                         backgroundColor:
-                                            train.trainId === selectedTrainId
+                                            train.trainId === selectedTrain?.trainId
                                                 ? "#E3F2FD"
                                                 : "transparent",
-                                        cursor: train.disabled
-                                            ? "not-allowed"
-                                            : "pointer",
+                                        cursor: train.availableSeats === 0 ? "not-allowed" : "pointer",
                                         transition: "0.3s ease-in-out",
+                                        borderRadius: "8px",
                                     }}
+                                    class={
+                                        train.trainId === selectedTrain?.trainId ? "selected-row" : ""
+                                    }
                                 >{train.departureTime}{train.arrivalTime}{train.price.toLocaleString()}원{train.availableSeats}))}' (id: , class: {styleb.box})
 - h2: '시간대 선택' (id: , class: page-title)
-- div: '출발도착가격남은 좌석 수{dummyTrains.map((train) => (handleSelect(train)}
+- div: '출발도착가격남은좌석 수{trains.map((train) => (
+                                // [LLM] 기차 한 줄을 클릭 시 선택됨. 이미 선택된 기차는 배경색 강조.handleSelect(train)}
                                     style={{
-                                        opacity: train.disabled ? 0.3 : 1,
-                                        border:
-                                            train.trainId === selectedTrainId
-                                                ? "3px solid #4A90E2"
-                                                : "1px solid transparent",
+                                        opacity: train.availableSeats === 0 ? 0.3 : 1,
                                         backgroundColor:
-                                            train.trainId === selectedTrainId
+                                            train.trainId === selectedTrain?.trainId
                                                 ? "#E3F2FD"
                                                 : "transparent",
-                                        cursor: train.disabled
-                                            ? "not-allowed"
-                                            : "pointer",
+                                        cursor: train.availableSeats === 0 ? "not-allowed" : "pointer",
                                         transition: "0.3s ease-in-out",
+                                        borderRadius: "8px",
                                     }}
+                                    class={
+                                        train.trainId === selectedTrain?.trainId ? "selected-row" : ""
+                                    }
                                 >{train.departureTime}{train.arrivalTime}{train.price.toLocaleString()}원{train.availableSeats}))}' (id: , class: content-container)
 - div: '이전다음' (id: , class: display-button)
-- button: '이전' (id: , class: {`${styles.button})
-- button: '다음' (id: , class: {`${styles.button})
+- button: '이전' (id: trainlist-to-reservation, class: {`${styles.button})
+- button: '다음' (id: trainlist-to-selectseat, class: {`${styles.button})
+- comment-hint: '사용자가 기차를 선택하는 TrainList 페이지입니다.' (id: , class: )
+- comment-hint: '예약 데이터 타입 정의' (id: , class: )
+- comment-hint: '기차 정보 타입 정의' (id: , class: )
+- comment-hint: '이전 페이지에서 전달된 예약 데이터를 가져옵니다.' (id: , class: )
+- comment-hint: '선택된 기차 정보와 기차 목록 상태 정의' (id: , class: )
+- comment-hint: '현재 세션 ID를 localStorage에서 가져옵니다.' (id: , class: )
+- comment-hint: '공통 클릭 로그 기록 함수' (id: , class: )
+- comment-hint: '페이지 진입 시 로그 기록 및 세션 위치 업데이트' (id: , class: )
+- comment-hint: '기차 목록 API 요청 및 상태 설정' (id: , class: )
+- comment-hint: '날짜를 KST 기준 문자열로 변환' (id: , class: )
+- comment-hint: '이전 버튼 클릭 시 예약 정보 입력 페이지로 이동' (id: , class: )
+- comment-hint: '기차 선택 시 상태 업데이트 및 로그 기록' (id: , class: )
+- comment-hint: '좌석이 없으면 선택 불가' (id: , class: )
+- comment-hint: '다음 버튼 클릭 시 좌석 선택 페이지로 이동' (id: , class: )
+- comment-hint: '기차 ID 확인용 콘솔 로그' (id: , class: )
+- comment-hint: '기차 리스트 상단 박스' (id: , class: )
+- comment-hint: '기차 정보 테이블' (id: , class: )
+- comment-hint: '기차 한 줄을 클릭 시 선택됨. 이미 선택된 기차는 배경색 강조.' (id: , class: )
+- comment-hint: '하단 이동 버튼: 이전, 다음' (id: , class: )
