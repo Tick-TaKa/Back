@@ -97,6 +97,14 @@ def flow_summary_question(request: CurrentRequest):
     audio_url = text_to_speech(answer)  # Clova Voice 호출
     return {"question": question, "answer": answer, "audio_url": audio_url}
 
+# 오류 발생
+@app.post("/default")
+def default(request: CurrentRequest):
+    question = request.question
+    answer = "시스템 오류가 발생했습니다."
+    audio_url = text_to_speech(answer)
+    return {"question": question, "answer": answer, "audio_url": audio_url}
+
 # 자진프 마감 기준 요청(이건 뭐지)
 # @app.post("/ask_taka")
 # def ask_taka_agent(request: CurrentRequest, db_results: DBRequest):
