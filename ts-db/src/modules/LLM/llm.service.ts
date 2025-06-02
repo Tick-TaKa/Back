@@ -52,6 +52,6 @@ export class LLMService {
 
         const llmUrl = 'http://localhost:8000' // LLM api 주소
         const response = await firstValueFrom(this.httpService.post(llmUrl, payload));
-        return response // LLM이 보낸 응답 기반으로 프론트한테 어떤 형식으로 보낼지 고민
+        return response
     }
 }

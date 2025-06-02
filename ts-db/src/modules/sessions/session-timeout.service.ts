@@ -16,7 +16,7 @@ export class SessionTimeoutService {
     async handleTimeoutSessions() {
         const now = new Date();
         const kstNow = new Date(now.getTime() + 9 * 60 * 60 * 1000);
-        const tenMinutesAgo = new Date(kstNow.getTime() - 10 * 60 * 1000); // 일단 10분에 한 번씩 확인하는 걸로 설정 -> 나중에 시간 변경 가능
+        const tenMinutesAgo = new Date(kstNow.getTime() - 5 * 60 * 1000); // 5분에 마다 종료
 
         const result = await this.sessionModel.updateMany (
             {
