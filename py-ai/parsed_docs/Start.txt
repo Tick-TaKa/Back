@@ -4,21 +4,31 @@
 이 페이지는 'reservation, history, refund' 과정 중 'Start' 화면입니다.
 
 다음과 같은 UI 요소들이 있습니다:
-- div: 'Startnavigate("/reservation")}
-                >
-                    예매하기navigate("/phonenumber")}
-                >
-                    조회하기' (id: , class: )
+- div: '{/* [LLM] 페이지 제목을 설정합니다. */}Start{/* [LLM] 서비스 로고를 표시합니다. */}{/* [LLM] 예매 및 조회 버튼을 포함한 컨테이너입니다. */}{/* [LLM] 예매 버튼: 예약 플로우를 시작합니다. */}예매하기{/* [LLM] 조회 버튼: 예매 내역 조회 플로우를 시작합니다. */}조회하기' (id: , class: )
 - div: '(텍스트 없음)' (id: , class: logo)
 - img: '메인로고' (id: , class: main-logo)
-- div: 'navigate("/reservation")}
-                >
-                    예매하기navigate("/phonenumber")}
-                >
-                    조회하기' (id: , class: button-container)
-- button: 'navigate("/reservation")}
-                >
-                    예매하기' (id: , class: {`${styles.button})
-- button: 'navigate("/phonenumber")}
-                >
-                    조회하기' (id: , class: {`${styles.button})
+- div: '{/* [LLM] 예매 버튼: 예약 플로우를 시작합니다. */}예매하기{/* [LLM] 조회 버튼: 예매 내역 조회 플로우를 시작합니다. */}조회하기' (id: , class: button-container)
+- button: '예매하기' (id: start-to-reservation, class: {`${styles.button})
+- button: '조회하기' (id: start-to-phonenumber, class: {`${styles.button})
+- comment-hint: '예매/조회 시 로그를 기록하는 함수입니다.' (id: , class: )
+- comment-hint: '예매 버튼 클릭 시 예약용 세션을 생성하고 예약 페이지로 이동합니다.' (id: , class: )
+- comment-hint: '백엔드에 세션 생성 요청을 보냅니다. 목적은 "reservation", 현재 페이지는 "Start"입니다.' (id: , class: )
+- comment-hint: '백엔드에서 받은 sessionId를 이용해 새 세션 객체를 생성합니다.' (id: , class: )
+- comment-hint: '현재 예약 세션을 localStorage에 저장합니다.' (id: , class: )
+- comment-hint: '전체 예약 세션 리스트에 현재 세션을 추가합니다.' (id: , class: )
+- comment-hint: '사용자가 "예매하기" 버튼을 클릭한 로그를 기록합니다.' (id: , class: )
+- comment-hint: '세션 생성 실패 시 경고 메시지를 출력합니다.' (id: , class: )
+- comment-hint: '세션 생성 중 오류 발생 시 콘솔에 출력합니다.' (id: , class: )
+- comment-hint: '예약 페이지로 이동하며 생성된 sessionId를 함께 전달합니다.' (id: , class: )
+- comment-hint: '조회 버튼 클릭 시 조회용 세션을 생성하고 전화번호 입력 페이지로 이동합니다.' (id: , class: )
+- comment-hint: '백엔드에 세션 생성 요청을 보냅니다. 목적은 "history", 현재 페이지는 "Start"입니다.' (id: , class: )
+- comment-hint: '생성된 히스토리 세션 정보를 localStorage에 저장합니다.' (id: , class: )
+- comment-hint: '사용자가 "조회하기" 버튼을 클릭한 로그를 기록합니다.' (id: , class: )
+- comment-hint: '세션 생성 실패 시 경고 메시지를 출력합니다.' (id: , class: )
+- comment-hint: '세션 생성 중 오류 발생 시 콘솔에 출력합니다.' (id: , class: )
+- comment-hint: '전화번호 입력 페이지로 이동하며 sessionId를 함께 전달합니다.' (id: , class: )
+- comment-hint: '페이지 제목을 설정합니다.' (id: , class: )
+- comment-hint: '서비스 로고를 표시합니다.' (id: , class: )
+- comment-hint: '예매 및 조회 버튼을 포함한 컨테이너입니다.' (id: , class: )
+- comment-hint: '예매 버튼: 예약 플로우를 시작합니다.' (id: , class: )
+- comment-hint: '조회 버튼: 예매 내역 조회 플로우를 시작합니다.' (id: , class: )

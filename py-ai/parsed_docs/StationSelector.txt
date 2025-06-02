@@ -4,13 +4,23 @@
 이 페이지는 'reservation' 과정 중 'StationSelector' 화면입니다.
 
 다음과 같은 UI 요소들이 있습니다:
-- div: '역명{stations.map((station) => (onSelect(station)}
-            >
-                {station}))}' (id: , class: station-popup)
+- div: '{/* [LLM] 팝업 상단에 표시되는 제목 텍스트입니다. */}역명{/* [LLM] 역 버튼들을 그리드 형태로 배치합니다. */}{stations.map((station) => (
+                    // [LLM] 각각의 역에 대한 버튼입니다. 클릭 시 해당 역 이름을 상위 컴포넌트로 전달합니다.onSelect(station)}
+                    >
+                        {station}))}' (id: , class: station-popup)
 - div: '역명' (id: , class: station-popup-title)
-- div: '{stations.map((station) => (onSelect(station)}
-            >
-                {station}))}' (id: , class: station-grid)
+- div: '{stations.map((station) => (
+                    // [LLM] 각각의 역에 대한 버튼입니다. 클릭 시 해당 역 이름을 상위 컴포넌트로 전달합니다.onSelect(station)}
+                    >
+                        {station}))}' (id: , class: station-grid)
 - button: 'onSelect(station)}
-            >
-                {station}' (id: , class: station-button)
+                    >
+                        {station}' (id: station-button, class: station-button)
+- comment-hint: '역 선택 팝업 컴포넌트입니다. 사용자가 출발역 또는 도착역을 선택할 수 있도록 합니다.' (id: , class: )
+- comment-hint: '선택 가능한 역 이름 리스트입니다.' (id: , class: )
+- comment-hint: '역 선택 시 호출되는 콜백 함수입니다.' (id: , class: )
+- comment-hint: '역 선택 UI를 표시하는 StationSelector 컴포넌트입니다.' (id: , class: )
+- comment-hint: '팝업 전체 영역입니다.' (id: , class: )
+- comment-hint: '팝업 상단에 표시되는 제목 텍스트입니다.' (id: , class: )
+- comment-hint: '역 버튼들을 그리드 형태로 배치합니다.' (id: , class: )
+- comment-hint: '각각의 역에 대한 버튼입니다. 클릭 시 해당 역 이름을 상위 컴포넌트로 전달합니다.' (id: , class: )
