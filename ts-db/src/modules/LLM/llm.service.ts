@@ -50,8 +50,19 @@ export class LLMService {
             },
         };
 
-        const llmUrl = 'http://localhost:8000' // LLM api 주소
-        const response = await firstValueFrom(this.httpService.post(llmUrl, payload));
-        return response
+        const questionKeywordTOUrlMap: { [key: string]: string} = {
+            '이 페이지' : 'http://localhost:8000/current_action',
+            '앞으로' : 'http://localhost:8000/remaining_steps',
+            '전체 과정정' : 'http://localhost:8000/flow_summary',
+        };
+
+        const matchedUrl = Object.entries(questionKeywordTOUrlMap).find(([keyword]) =>
+            question.includes(keyword)
+        )?.[1];
+
+        const llmUrl = matchedUrl || 'http://localhost:8000/default'
+        
+        const response = await firstValueFrom(this.httpService.post(llmUrl, payload))
+        return response.data
     }
 }
