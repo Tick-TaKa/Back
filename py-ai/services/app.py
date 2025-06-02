@@ -1,6 +1,9 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
+from typing import List, Optional
+from enum import Enum
+from datetime import datetime
 from dotenv import load_dotenv
 from openai import OpenAI
 from services.query_chain_service import query_current_action_chain
@@ -29,17 +32,46 @@ app.add_middleware(
 # FastAPI에 static 폴더 마운트
 from fastapi.staticfiles import StaticFiles
 app.mount("/static", StaticFiles(directory="static"), name="static")
+ 
+# 1. Enum으로 purpose 제한
+class Purpose(str, Enum):
+    reservation = "reservation"
+    history = "history"
+    refund = "refund"
 
-class AskRequest(BaseModel):
+# 2. 각 이벤트 로그 구조
+class LogEvent(BaseModel):
+    page: str
+    event: str
+    target_id: str
+    tag: Optional[str] = ""
+    url: Optional[str] = ""
+    text: Optional[str] = ""
+    timestamp: datetime  # 문자열 → datetime 자동 변환됨
+
+# 3. 전체 요청 모델
+class CurrentSessionDBRequest(BaseModel):
+    sessionId: str
+    purpose: Purpose
+    location: str
+    logs: List[LogEvent]
+
+class CompletedSessionDBRequest(BaseModel):
+    purpose: Purpose
+    logs: List[List[LogEvent]]  # 2차원 배열 (여러 사용자 -> 각 사용자별 이벤트 리스트)
+
+# Pydantic 모델
+class CurrentRequest(BaseModel):
     question: str
-    data: dict
+    current_session: CurrentSessionDBRequest # 이미 선언된 Pydantic 모델
+    completed_session: CompletedSessionDBRequest # 이미 선언된 Pydantic 모델
 
 # 이 페이지에서는 무엇을 해야 해?
 @app.post("/current_action")
-def current_action_question(request: AskRequest):
+def current_action_question(request: CurrentRequest):
     question = request.question
-    location = request.data.get("location")  # 프론트 로그 데이터에서 page 추출
-    purpose = request.data.get("purpose")  # 프론트 로그 데이터에서 purpose 추출
+    location = request.current_session.location
+    purpose = request.current_session.purpose
 
     answer = query_current_action_chain(question, location, purpose)
     audio_url = text_to_speech(answer)  # Clova Voice 호출
@@ -47,24 +79,29 @@ def current_action_question(request: AskRequest):
 
 # 앞으로 어떤 단계가 남아있어?
 @app.post("/remaining_steps")
-def remaining_steps_route(request: AskRequest):
-    location = request.data.get("location")
-    purpose = request.data.get("purpose")
+def remaining_steps_route(request: CurrentRequest):
+    location = request.current_session.location
+    purpose = request.current_session.purpose
+
     answer = query_remaining_steps_chain(location, purpose)
     audio_url = text_to_speech(answer)  # Clova Voice 호출
     return {"question": request.question, "answer": answer, "audio_url": audio_url}
 
 # 전체 과정을 설명해줘
 @app.post("/flow_summary")
-def flow_summary_question(request: AskRequest):
-    purpose = request.data.get("purpose")
+def flow_summary_question(request: CurrentRequest):
+    purpose = request.current_session.purpose
     question = request.question
 
     answer = query_flow_summary_chain(question, purpose)
     audio_url = text_to_speech(answer)  # Clova Voice 호출
     return {"question": question, "answer": answer, "audio_url": audio_url}
 
+# 자진프 마감 기준 요청(이건 뭐지)
+# @app.post("/ask_taka")
+# def ask_taka_agent(request: CurrentRequest, db_results: DBRequest):
+#     return
+
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run("services.app:app", host="0.0.0.0", port=8000, reload=True)
-

@@ -4,12 +4,16 @@
 이 페이지는 'history, refund' 과정 중 'HistoryNone' 화면입니다.
 
 다음과 같은 UI 요소들이 있습니다:
-- div: '해당 조회기간에는예매 내역이 없습니다.{/* HistoryNone에서 메인화면으로 이동하는 버튼 */}navigate("/")}
-            >
-                메인 화면으로' (id: , class: ticket-container-none)
+- div: '{/* [LLM] 이미지와 메시지로 예매 없음 상태 표현 */}해당 조회기간에는예매 내역이 없습니다.{/* [LLM] 메인 화면으로 이동하는 버튼 */}메인 화면으로' (id: , class: ticket-container-none)
 - div: '해당 조회기간에는예매 내역이 없습니다.' (id: , class: no-reservation-section)
 - img: 'no-reservation' (id: , class: no-reservation-image)
 - p: '해당 조회기간에는예매 내역이 없습니다.' (id: , class: no-reservation-text)
-- button: 'navigate("/")}
-            >
-                메인 화면으로' (id: historyNone-to-home, class: {styles.button})
+- button: '메인 화면으로' (id: historyNone-to-home, class: {styles.button})
+- comment-hint: '예약 내역이 없을 때 History 페이지 내에 표시되는 컴포넌트' (id: , class: )
+- comment-hint: '"메인 화면으로" 버튼 클릭 시 실행되는 함수' (id: , class: )
+- comment-hint: '사용자가 예매 내역이 없어서 메인으로 돌아가는 동작을 로그에 기록' (id: , class: )
+- comment-hint: '히스토리 세션을 종료하고, 목적지를 Start로 설정' (id: , class: )
+- comment-hint: '메인 페이지("/")로 라우팅' (id: , class: )
+- comment-hint: '예매 내역이 없을 때 보여지는 전체 컨테이너' (id: , class: )
+- comment-hint: '이미지와 메시지로 예매 없음 상태 표현' (id: , class: )
+- comment-hint: '메인 화면으로 이동하는 버튼' (id: , class: )

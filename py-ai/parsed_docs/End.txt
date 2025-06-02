@@ -4,15 +4,18 @@
 이 페이지는 'reservation' 과정 중 'End' 화면입니다.
 
 다음과 같은 UI 요소들이 있습니다:
-- div: 'Endnavigate("/")}
-                >
-                    확인이용해 주셔서 감사합니다.' (id: , class: )
+- div: 'End{/* [LLM] 로고 영역 */}{/* [LLM] 버튼 + 종료 메시지 */}확인{/* [LLM] 사용자에게 감사 메시지 출력 */}이용해 주셔서 감사합니다.' (id: , class: )
 - div: '(텍스트 없음)' (id: , class: logo)
 - img: 'main-logo' (id: , class: )
-- div: 'navigate("/")}
-                >
-                    확인이용해 주셔서 감사합니다.' (id: , class: button-container)
-- button: 'navigate("/")}
-                >
-                    확인' (id: , class: {`${styles.button})
+- div: '확인{/* [LLM] 사용자에게 감사 메시지 출력 */}이용해 주셔서 감사합니다.' (id: , class: button-container)
+- button: '확인' (id: end-to-home, class: {`${styles.button})
 - div: '이용해 주셔서 감사합니다.' (id: , class: )
+- comment-hint: '예약 완료 후 마지막 페이지 (확인 후 메인으로 이동)' (id: , class: )
+- comment-hint: '세션 ID를 상태로 보관' (id: , class: )
+- comment-hint: '공통 로그 기록 함수 (클릭 이벤트용)' (id: , class: )
+- comment-hint: '마운트 시:' (id: , class: )
+- comment-hint: '확인 버튼 클릭 → 세션 종료 + 홈으로 이동' (id: , class: )
+- comment-hint: '전체 페이지 컨테이너' (id: , class: )
+- comment-hint: '로고 영역' (id: , class: )
+- comment-hint: '버튼 + 종료 메시지' (id: , class: )
+- comment-hint: '사용자에게 감사 메시지 출력' (id: , class: )

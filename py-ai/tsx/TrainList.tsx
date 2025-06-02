@@ -1,172 +1,224 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+// [LLM] 사용자가 기차를 선택하는 TrainList 페이지입니다.
+// 선택 가능한 기차 목록을 표시하고, 좌석 선택 페이지로 이동할 수 있습니다.
+
+import React, { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import styleb from "../styles/Box.module.css";
 import styles from "../styles/Button.module.css";
 import "../styles/TrainList.css";
+import {
+    updateCurrentSession,
+    addReservationLog,
+    updateReservationLogSession,
+} from "../utils/session";
+import axios from "axios";
 
+// [LLM] 예약 데이터 타입 정의
+interface ReservationData {
+    departureStation: string | null;
+    destinationStation: string | null;
+    departureDate: Date | null;
+    adultCount: number;
+    seniorCount: number;
+    teenCount: number;
+}
+
+// [LLM] 기차 정보 타입 정의
 interface Train {
     trainId: string;
     departureTime: string;
     arrivalTime: string;
     price: number;
     availableSeats: number;
-    disabled?: boolean;
 }
-
-const dummyTrains: Train[] = [
-    {
-        trainId: "DUMMY1",
-        departureTime: "05:13",
-        arrivalTime: "07:14",
-        price: 69000,
-        availableSeats: 36,
-    },
-    {
-        trainId: "DUMMY2",
-        departureTime: "06:21",
-        arrivalTime: "08:20",
-        price: 69000,
-        availableSeats: 10,
-    },
-    {
-        trainId: "DUMMY3",
-        departureTime: "08:36",
-        arrivalTime: "10:02",
-        price: 71600,
-        availableSeats: 0,
-        disabled: true,
-    },
-    {
-        trainId: "DUMMY4",
-        departureTime: "11:03",
-        arrivalTime: "13:14",
-        price: 69000,
-        availableSeats: 29,
-    },
-    {
-        trainId: "DUMMY5",
-        departureTime: "12:27",
-        arrivalTime: "15:20",
-        price: 69000,
-        availableSeats: 12,
-    },
-    {
-        trainId: "DUMMY6",
-        departureTime: "15:13",
-        arrivalTime: "17:14",
-        price: 54000,
-        availableSeats: 97,
-    },
-    {
-        trainId: "DUMMY7",
-        departureTime: "16:21",
-        arrivalTime: "18:20",
-        price: 69000,
-        availableSeats: 23,
-    },
-    {
-        trainId: "DUMMY8",
-        departureTime: "18:36",
-        arrivalTime: "20:02",
-        price: 71600,
-        availableSeats: 0,
-        disabled: true,
-    },
-    {
-        trainId: "DUMMY9",
-        departureTime: "21:03",
-        arrivalTime: "23:14",
-        price: 32000,
-        availableSeats: 17,
-    },
-    {
-        trainId: "DUMMY10",
-        departureTime: "22:27",
-        arrivalTime: "01:20",
-        price: 69000,
-        availableSeats: 8,
-    },
-];
 
 const TrainList = () => {
     const navigate = useNavigate();
-    const [selectedTrainId, setSelectedTrainId] = useState<string | null>(
-        () => {
-            return localStorage.getItem("selectedTrainId") || null;
-        }
-    );
+    const location = useLocation();
 
+    // [LLM] 이전 페이지에서 전달된 예약 데이터를 가져옵니다.
+    const reservationData = location.state as ReservationData;
+
+    // [LLM] 선택된 기차 정보와 기차 목록 상태 정의
+    const [selectedTrain, setSelectedTrain] = useState<Train | null>(null);
+    const [trains, setTrains] = useState<Train[]>([]);
+
+    // [LLM] 현재 세션 ID를 localStorage에서 가져옵니다.
+    const sessionId = (() => {
+        try {
+            return JSON.parse(localStorage.getItem("currentReservationLogSession") || "null")?.sessionId;
+        } catch {
+            return null;
+        }
+    })();
+
+    // [LLM] 공통 클릭 로그 기록 함수
+    const logClick = (target_id: string, text: string, tag = "button") => {
+        if (!sessionId) return;
+        addReservationLog({
+            sessionId,
+            page: "TrainList",
+            event: "click",
+            target_id,
+            tag,
+            text,
+        });
+    };
+
+    // [LLM] 페이지 진입 시 로그 기록 및 세션 위치 업데이트
     useEffect(() => {
-        if (selectedTrainId !== null) {
-            localStorage.setItem("selectedTrainId", selectedTrainId);
-        }
-    }, [selectedTrainId]);
+        if (sessionId) {
+            updateReservationLogSession({
+                location: "TrainList",
+                previous_pages: ["Reservation"],
+            });
 
+            const sessionRaw = localStorage.getItem("currentReservationLogSession");
+            if (sessionRaw) {
+                const session = JSON.parse(sessionRaw);
+                const alreadyLogged = session.logs?.some(
+                    (log: any) =>
+                        log.page === "TrainList" &&
+                        log.event === "navigate" &&
+                        log.target_id === "page-load"
+                );
+
+                if (!alreadyLogged) {
+                    addReservationLog({
+                        sessionId,
+                        page: "TrainList",
+                        event: "navigate",
+                        target_id: "page-load",
+                        tag: "system",
+                        text: "TrainList 페이지 도착",
+                    });
+                }
+            }
+        }
+    }, [sessionId]);
+
+    // [LLM] 기차 목록 API 요청 및 상태 설정
+    useEffect(() => {
+        const fetchTrains = async () => {
+            try {
+                if (
+                    !reservationData?.departureStation ||
+                    !reservationData?.destinationStation ||
+                    !reservationData?.departureDate
+                ) {
+                    console.warn("필수 정보 누락");
+                    return;
+                }
+
+                // [LLM] 날짜를 KST 기준 문자열로 변환
+                const departureDate = new Date(reservationData.departureDate);
+                const kstOffset = 9 * 60 * 60 * 1000;
+                const kstDate = new Date(departureDate.getTime() + kstOffset);
+                const dateStr = kstDate.toISOString().split("T")[0];
+
+                const response = await axios.get("http://localhost:3000/trains", {
+                    params: {
+                        departure: reservationData.departureStation,
+                        destination: reservationData.destinationStation,
+                        date: dateStr,
+                    },
+                });
+
+                if (response.data?.trains) {
+                    setTrains(response.data.trains);
+                } else {
+                    console.warn("trains 데이터가 없음");
+                }
+            } catch (err) {
+                console.error("기차 정보 요청 실패:", err);
+            }
+        };
+
+        fetchTrains();
+    }, [reservationData]);
+
+    // [LLM] 이전 버튼 클릭 시 예약 정보 입력 페이지로 이동
     const handleBack = () => {
-        navigate(-1);
+        logClick("trainlist-to-reservation", "이전");
+        navigate("/reservation");
     };
 
+    // [LLM] 기차 선택 시 상태 업데이트 및 로그 기록
     const handleSelect = (train: Train) => {
-        if (!train.disabled) {
-            setSelectedTrainId(train.trainId);
-        }
+        if (train.availableSeats === 0) return; // [LLM] 좌석이 없으면 선택 불가
+        setSelectedTrain(train);
+        logClick(`select-trainlist-${train.trainId}`, `${train.trainId} 선택`, "tr");
     };
 
+    // [LLM] 다음 버튼 클릭 시 좌석 선택 페이지로 이동
     const handleNext = () => {
-        if (selectedTrainId === null) {
+        logClick("trainlist-to-selectseat", "다음");
+
+        if (!selectedTrain) {
             alert("기차를 선택해주세요.");
             return;
         }
-        navigate("/reservation/select-seat");
+
+        updateCurrentSession({ trainInfo: selectedTrain });
+
+        navigate("/reservation/select-seat", {
+            state: {
+                reservationData,
+                trainInfo: selectedTrain,
+            },
+        });
     };
+
+    // [LLM] 기차 ID 확인용 콘솔 로그
+    useEffect(() => {
+        console.log("trainIds", trains.map((t) => t.trainId));
+    }, [trains]);
 
     return (
         <div>
-            <title>TimeTable</title>
+            {/* [LLM] 기차 리스트 상단 박스 */}
             <div className={styleb.box}>
                 <h2 className="page-title">시간대 선택</h2>
                 <hr className="page-title-bar" />
 
+                {/* [LLM] 기차 정보 테이블 */}
                 <div className="content-container">
-                    <table>
+                    <table style={{ borderCollapse: "collapse", width: "100%" }}>
                         <thead>
                             <tr>
                                 <th>출발</th>
                                 <th>도착</th>
                                 <th>가격</th>
-                                <th>남은 좌석 수</th>
+                                <th>남은 <br />좌석 수</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {dummyTrains.map((train) => (
+                            {trains.map((train) => (
+                                // [LLM] 기차 한 줄을 클릭 시 선택됨. 이미 선택된 기차는 배경색 강조.
                                 <tr
                                     key={train.trainId}
+                                    id={`select-trainlist-${train.trainId}`}
                                     onClick={() => handleSelect(train)}
                                     style={{
-                                        opacity: train.disabled ? 0.3 : 1,
-                                        border:
-                                            train.trainId === selectedTrainId
-                                                ? "3px solid #4A90E2"
-                                                : "1px solid transparent",
+                                        opacity: train.availableSeats === 0 ? 0.3 : 1,
                                         backgroundColor:
-                                            train.trainId === selectedTrainId
+                                            train.trainId === selectedTrain?.trainId
                                                 ? "#E3F2FD"
                                                 : "transparent",
-                                        cursor: train.disabled
-                                            ? "not-allowed"
-                                            : "pointer",
+                                        cursor: train.availableSeats === 0 ? "not-allowed" : "pointer",
                                         transition: "0.3s ease-in-out",
+                                        borderRadius: "8px",
                                     }}
+                                    className={
+                                        train.trainId === selectedTrain?.trainId ? "selected-row" : ""
+                                    }
                                 >
                                     <td>{train.departureTime}</td>
                                     <td>{train.arrivalTime}</td>
                                     <td>{train.price.toLocaleString()}원</td>
                                     <td
                                         style={{
-                                            color:
-                                                train.availableSeats < 20
-                                                    ? "#FF1744"
-                                                    : "#111111",
+                                            color: train.availableSeats <= 15 ? "#FF1744" : "#111111",
                                         }}
                                     >
                                         {train.availableSeats}
@@ -178,15 +230,18 @@ const TrainList = () => {
                 </div>
             </div>
 
+            {/* [LLM] 하단 이동 버튼: 이전, 다음 */}
             <div className="display-button">
                 <button
                     className={`${styles.button} train-list-back`}
+                    id="trainlist-to-reservation"
                     onClick={handleBack}
                 >
                     이전
                 </button>
                 <button
                     className={`${styles.button} train-list-search`}
+                    id="trainlist-to-selectseat"
                     onClick={handleNext}
                 >
                     다음
@@ -197,6 +252,3 @@ const TrainList = () => {
 };
 
 export default TrainList;
-
-
-// 표를 선택할 때 지금 표 때문에 하이트라이트가 끊겨서 나오는데 그렇게 하지 말고 하나의 하이라이트로 만들기. 표의 선 없애고. 이건 스타일로 지정?

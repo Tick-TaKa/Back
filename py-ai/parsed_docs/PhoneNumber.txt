@@ -4,25 +4,49 @@
 이 페이지는 'history, refund' 과정 중 'PhoneNumber' 화면입니다.
 
 다음과 같은 UI 요소들이 있습니다:
-- div: '전화번호 입력{[
-                    ["1", "2", "3"],
-                    ["4", "5", "6"],
-                    ["7", "8", "9"],
-                    ["empty", "0", "del"],
-                ].map((row, i) => ({row.map((key, j) => {
-                            if (key === "empty") {
-                                return (' (id: , class: phone-number)
+- div: '전화번호 입력{/* [LLM] 입력된 전화번호를 표시하는 읽기 전용 input */}{/* [LLM] 숫자 키패드 UI */}{[
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                    "6",
+                    "7",
+                    "8",
+                    "9",
+                    "empty",
+                    "0",
+                    "del",
+                ]
+                    .reduce((rows, key, idx) => {
+                        const rowIdx = Math.floor(idx / 3' (id: , class: phone-number)
 - p: '전화번호 입력' (id: , class: phone-number-title)
 - input: '(텍스트 없음)' (id: , class: phone-number-input)
 - div: '{[
-                    ["1", "2", "3"],
-                    ["4", "5", "6"],
-                    ["7", "8", "9"],
-                    ["empty", "0", "del"],
-                ].map((row, i) => ({row.map((key, j) => {
-                            if (key === "empty") {
-                                return (' (id: , class: keypad)
-- div: '{row.map((key, j) => {
-                            if (key === "empty") {
-                                return (' (id: , class: keypad-row)
-- button: '(텍스트 없음)' (id: , class: phone-key)
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                    "6",
+                    "7",
+                    "8",
+                    "9",
+                    "empty",
+                    "0",
+                    "del",
+                ]
+                    .reduce((rows, key, idx) => {
+                        const rowIdx = Math.floor(idx / 3' (id: , class: keypad)
+- comment-hint: '전화번호를 입력받아 예매 내역을 조회하는 페이지입니다.' (id: , class: )
+- comment-hint: 'PhoneNumber 페이지 진입 시 세션 업데이트 및 페이지 도착 로그 기록' (id: , class: )
+- comment-hint: '숫자 버튼 클릭 시 전화번호 입력 처리 및 로그' (id: , class: )
+- comment-hint: '지우기 버튼 클릭 시 마지막 자리 삭제 및 로그' (id: , class: )
+- comment-hint: '전화번호 형식 (3-4-4)으로 변환하여 표시합니다.' (id: , class: )
+- comment-hint: '다음 버튼 클릭 시 유효성 검사 후 조회 페이지로 이동 또는 모달/알림' (id: , class: )
+- comment-hint: 'localStorage에서 전화번호와 일치하는 예매 데이터 존재 여부 확인' (id: , class: )
+- comment-hint: 'UI 구성: 제목, 입력창, 키패드, 버튼, 모달 포함' (id: , class: )
+- comment-hint: '입력된 전화번호를 표시하는 읽기 전용 input' (id: , class: )
+- comment-hint: '숫자 키패드 UI' (id: , class: )
+- comment-hint: '이전 / 다음 버튼' (id: , class: )
+- comment-hint: '전화번호 자리수 부족 시 PhoneModal 모달창 열림' (id: , class: )
