@@ -51,9 +51,9 @@ export class LLMService {
         };
 
         const questionKeywordTOUrlMap: { [key: string]: string} = {
-            '이 페이지' : 'http://localhost:8000/current_action',
+            '현재 페이지' : 'http://localhost:8000/current_action',
             '앞으로' : 'http://localhost:8000/remaining_steps',
-            '전체 과정정' : 'http://localhost:8000/flow_summary',
+            '전체 과정' : 'http://localhost:8000/flow_summary',
         };
 
         const matchedUrl = Object.entries(questionKeywordTOUrlMap).find(([keyword]) =>
