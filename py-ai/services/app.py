@@ -62,20 +62,37 @@ def current_action_question(request: CurrentRequest):
 # 앞으로 어떤 단계가 남아있어?
 @app.post("/remaining_steps")
 def remaining_steps_route(request: CurrentRequest):
+    question = request.question
     location = request.current_session.location
     purpose = request.current_session.purpose
+    current_session = request.current_session
+    completed_session = request.completed_session
 
-    answer = query_remaining_steps_chain(location, purpose)
+    answer = query_remaining_steps_chain(
+        question,
+        location,
+        purpose,
+        current_session,
+        completed_session
+    )
+
     audio_url = text_to_speech(answer)  # Clova Voice 호출
     return {"question": request.question, "answer": answer, "audio_url": audio_url}
 
 # 전체 과정을 설명해줘
 @app.post("/flow_summary")
 def flow_summary_question(request: CurrentRequest):
-    purpose = request.current_session.purpose
     question = request.question
+    purpose = request.current_session.purpose
+    current_session = request.current_session
+    completed_session = request.completed_session
 
-    answer = query_flow_summary_chain(question, purpose)
+    answer = query_flow_summary_chain(
+        question,
+        purpose,
+        current_session,
+        completed_session
+    )
     audio_url = text_to_speech(answer)  # Clova Voice 호출
     return {"question": question, "answer": answer, "audio_url": audio_url}
 
