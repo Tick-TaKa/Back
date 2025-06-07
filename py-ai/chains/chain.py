@@ -5,6 +5,7 @@ from dotenv import load_dotenv
 from utils.vector_store import query_by_location_and_purpose
 from utils.vector_store import query_by_purpose_only
 from utils.flow_steps import FLOW_STEPS
+from services.models import CurrentSessionDBRequest, CompletedSessionDBRequest
 
 # .env 파일 로드
 load_dotenv()
@@ -12,38 +13,83 @@ load_dotenv()
 # OpenAI 클라이언트 초기화
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
-def run_current_action_chain(query: str, location: str, purpose: str) -> str:
-    query = f"[{purpose} 흐름] {query}"
 
-    # ✅ 인자 순서 맞춰서 호출
-    results = query_by_location_and_purpose(query, location)
+# 현재 위치에서 해야 할 일 안내
+def run_current_action_chain(
+    query: str,
+    location: str,
+    purpose: str,
+    current_session: CurrentSessionDBRequest,
+    completed_session: CompletedSessionDBRequest
+) -> str:
+    enriched_query = f"[{purpose} 흐름] {query}"
 
-    context = "\n".join(results["documents"][0]) if results["documents"] else "관련 문서를 찾을 수 없습니다."
+    # 벡터 DB 문서 검색
+    results = query_by_location_and_purpose(enriched_query, location, purpose)
+    ui_context = "\n".join(results["documents"][0]) if results["documents"] else "관련 문서를 찾을 수 없습니다."
 
-    prompt = f"""
-[사용자 질문]
-{query}
+    # 현재 사용자 로그 요약
+    current_logs_text = "\n".join(
+        f"- {log.page} / {log.event} / {log.text or log.target_id}" for log in current_session.logs
+    ) or "현재 사용자의 로그가 없습니다."
 
-[참고 문서]
-{context}
+    # 성공 사용자 로그 요약 (최대 3개까지만 샘플링)
+    completed_logs_summaries = []
+    for i, user_logs in enumerate(completed_session.logs[:3]):
+        summary = "\n".join(
+            f"  - {log.page} / {log.event} / {log.text or log.target_id}" for log in user_logs
+        )
+        completed_logs_summaries.append(f"[사용자{i+1}]\n{summary}")
 
-위 문서를 참고하여 사용자 질문에 존댓말을 사용하여 친절히 답변해줘.
-참고로 사용자는 참고 문서를 볼 수 없어. 사용자에게 참고 문서 이야기를 하면 더 혼란을 주기 때문에, 참고 문서에 대해서는 말하지마.
-또한 사용자가 위치한 페이지에서 할 수 있는 것만 해야 해.
-그리고 너는 사용자가 한 질문에 대해서만 대답할 수 있어.
-추가 도움을 유도하면 안돼.
-"""
+    completed_logs_text = "\n\n".join(completed_logs_summaries) if completed_logs_summaries else "성공한 사용자의 로그가 없습니다."
+
+    # 프롬프트 구성
+    system_prompt = """
+    너는 기차표 예매 서비스에서 사용자가 지금 위치한 페이지에 맞춰 안내를 해주는 도우미야.
+
+    [반드시 지켜야하는 규칙]
+    1. 현재 페이지(예: SelectSeat)에서 **사용자가 해야 할 행동만** 설명해. 
+    - 그 이후에 해야 할 일(예: 결제, 개인정보 입력 등)은 말하지 마.
+    2. 설명은 다음처럼 구성해:
+    - 첫 문장은 "현재 페이지는 ~하는 페이지입니다."처럼 **페이지 목적만 한국어로** 설명해.
+    - 최대한 **구체적으로**, **단계별로**, **쉬운 표현**으로.
+    - 단계별 안내는 **'첫째', '둘째', '셋째'**처럼 한국어 순서를 써.
+    3. 참고 문서를 직접 언급하지 마.
+    4. 무조건 존댓말로 말하고, 마지막 문장은 질문이 아닌 평서문으로 끝나야 해.
+
+    먼저, 사용자가 어떤 페이지에 있는지 확인하고,
+    그 페이지에서 어떤 UI 요소를 조작해야 하는지를 파악해.
+
+    그 다음, 사용자가 해야 할 일을 **단계별**로 서술해.
+    중요하거나 실수할 수 있는 부분은 **친절하게 강조**해 줘.
+    """
+
+    user_prompt = f"""
+    [사용자 질문]
+    {query}
+
+    [현재 페이지의 UI 구조 정보]
+    {ui_context}
+
+    [현재 사용자의 행동 흐름 로그]
+    {current_logs_text}
+
+    [같은 목적을 가진 성공 사용자들의 행동 흐름 로그 요약]
+    {completed_logs_text}
+    """
 
     response = client.chat.completions.create(
         model="gpt-3.5-turbo",
-        temperature=0.5,
+        temperature=0,
+        max_tokens=150,
         messages=[
-            {"role": "system", "content": "너는 기차표 예매를 도와주는 안내 도우미야."},
-            {"role": "user", "content": prompt}
+            {"role": "system", "content": system_prompt.strip()},
+            {"role": "user", "content": user_prompt.strip()}
         ]
     )
 
     return response.choices[0].message.content
+
 
 # 남은 단계 추출
 def get_remaining_steps(location: str, purpose: str) -> list[str]:

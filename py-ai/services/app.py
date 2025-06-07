@@ -10,6 +10,7 @@ from services.query_chain_service import query_current_action_chain
 from services.query_chain_service import query_remaining_steps_chain
 from services.query_chain_service import query_flow_summary_chain
 from services.tts_service import text_to_speech
+from services.models import CurrentSessionDBRequest, CompletedSessionDBRequest
 
 import os
 
@@ -32,33 +33,6 @@ app.add_middleware(
 # FastAPI에 static 폴더 마운트
 from fastapi.staticfiles import StaticFiles
 app.mount("/static", StaticFiles(directory="static"), name="static")
- 
-# 1. Enum으로 purpose 제한
-class Purpose(str, Enum):
-    reservation = "reservation"
-    history = "history"
-    refund = "refund"
-
-# 2. 각 이벤트 로그 구조
-class LogEvent(BaseModel):
-    page: str
-    event: str
-    target_id: str
-    tag: Optional[str] = ""
-    url: Optional[str] = ""
-    text: Optional[str] = ""
-    timestamp: datetime  # 문자열 → datetime 자동 변환됨
-
-# 3. 전체 요청 모델
-class CurrentSessionDBRequest(BaseModel):
-    sessionId: str
-    purpose: Purpose
-    location: str
-    logs: List[LogEvent]
-
-class CompletedSessionDBRequest(BaseModel):
-    purpose: Purpose
-    logs: List[List[LogEvent]]  # 2차원 배열 (여러 사용자 -> 각 사용자별 이벤트 리스트)
 
 # Pydantic 모델
 class CurrentRequest(BaseModel):
@@ -72,8 +46,16 @@ def current_action_question(request: CurrentRequest):
     question = request.question
     location = request.current_session.location
     purpose = request.current_session.purpose
+    current_session = request.current_session
+    completed_session = request.completed_session
 
-    answer = query_current_action_chain(question, location, purpose)
+    answer = query_current_action_chain(
+        question, 
+        location, 
+        purpose,
+        current_session,
+        completed_session
+    )
     audio_url = text_to_speech(answer)  # Clova Voice 호출
     return {"question": question, "answer": answer, "audio_url": audio_url}
 
