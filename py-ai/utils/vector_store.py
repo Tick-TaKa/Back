@@ -2,6 +2,8 @@ import os
 import chromadb
 from openai import OpenAI
 from dotenv import load_dotenv
+from enum import Enum
+from typing import Union
 
 # 환경 변수 로드
 load_dotenv()
@@ -23,33 +25,63 @@ def add_document_to_vector_store(doc_id: str, text: str, metadata: dict):
         input=[text]
     ).data[0].embedding
 
+    # 메타데이터 강화
+    enriched_metadata = {
+        "doc_id": doc_id,
+        "location": metadata.get("location"),
+        "purpose": metadata.get("purpose", ""),
+        "pageTitle": metadata.get("pageTitle", ""),
+        "tagCount": metadata.get("tagCount", 0)
+    }
+
     collection.add(
         ids=[doc_id],
         documents=[text],
         embeddings=[embedding],
-        metadatas=[metadata]
+        metadatas=[enriched_metadata]
     )
 
 # 벡터 DB에서 관련 문서를 찾는 핵심 동작
-def query_by_location_and_purpose(query: str, location: str, top_k: int = 3):
+def query_by_location_and_purpose(query: str, location: str, purpose: Union[str, Enum], top_k: int = 3):
+    # Step 1. query 임베딩 생성
     embedding = client.embeddings.create(
         model="text-embedding-3-small",
         input=[query]
     ).data[0].embedding
 
-    # 필터는 location 하나만!
+    # Step 2. location 기준으로만 필터링
     filters = {
-        "location": location
+        "location": {"$eq": location}
     }
 
-    results = collection.query(
+    raw_results = collection.query(
         query_embeddings=[embedding],
-        n_results=top_k,
+        n_results=top_k * 3,  # 충분히 많이 받아서 후처리
         where=filters
     )
 
-    return results
+    # Step 3. purpose 기준으로 후처리
+    target_purpose = purpose.value if isinstance(purpose, Enum) else purpose
 
+    filtered_results = {
+        "documents": [],
+        "metadatas": [],
+        "ids": []
+    }
+
+    for doc_list, meta_list, id_list in zip(raw_results["documents"], raw_results["metadatas"], raw_results["ids"]):
+        for doc, meta, doc_id in zip(doc_list, meta_list, id_list):
+            if meta.get("purpose") == target_purpose:
+                filtered_results["documents"].append(doc)
+                filtered_results["metadatas"].append(meta)
+                filtered_results["ids"].append(doc_id)
+
+
+    # Step 4. top_k로 자르기
+    for key in filtered_results:
+        filtered_results[key] = filtered_results[key][:top_k]
+
+    return filtered_results
 
 def query_by_purpose_only(purpose: str, query: str, top_k: int = 3):
     embedding = client.embeddings.create(
@@ -57,14 +89,14 @@ def query_by_purpose_only(purpose: str, query: str, top_k: int = 3):
         input=[query]
     ).data[0].embedding
 
+    filters = {
+        "purpose": {"$eq": purpose.value if isinstance(purpose, Enum) else purpose}
+    }
+
     results = collection.query(
         query_embeddings=[embedding],
         n_results=top_k,
-        where={
-            "purpose": {
-                "$in": [purpose]
-            }
-        }
+        where=filters
     )
 
     return results
